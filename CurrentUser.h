@@ -14,8 +14,8 @@ class CurrentUser {
     private:
         CurrentUser();
         static CurrentUser* instance;
-        User user;
-        Seller seller;
+        User* user;
+        Seller* seller;
         bool login;
         bool sellerLogin;
 };

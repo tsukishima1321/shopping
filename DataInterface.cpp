@@ -44,7 +44,7 @@ User DataInterface::getUserById(ID_t id) {
 
 Seller DataInterface::getSellerById(ID_t id) {
     QSqlQuery query(DBInstance::getInstance());
-    query.prepare("SELECT * FROM Seller WHERE UserID = ?");
+    query.prepare("SELECT * FROM SellerDetail WHERE UserID = ?");
     query.addBindValue(id);
     query.exec();
     if (query.next()) {
@@ -301,7 +301,7 @@ QVector<Shop> DataInterface::searchShopsByName(const QString &name, ShopOrder or
 
 std::optional<ID_t> DataInterface::UserLogin(const QString &name, const QString &password) {
     QSqlQuery query(DBInstance::getInstance());
-    query.prepare("SELECT UserID FROM Users WHERE UserName = ? AND Password = ?");
+    query.prepare("EXEC sp_UserLogin ?, ?");
     query.addBindValue(name);
     query.addBindValue(password);
     if (!query.exec()) {

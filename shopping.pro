@@ -19,6 +19,8 @@ SOURCES += \
         CurrentUser.cpp \
         IconResources.cpp \
         login.cpp \
+        UserMainWindow.cpp \
+        ShopPreviewForm.cpp \
 
 HEADERS += \
         DBInstance.h \
@@ -27,9 +29,13 @@ HEADERS += \
         CurrentUser.h \
         IconResources.h \
         login.h \
+        UserMainWindow.h \
+        ShopPreviewForm.h \
 
 FORMS += \
-        login.ui
+        login.ui \
+        UserMainWindow.ui \
+        ShopPreviewForm.ui \
 
 RESOURCES += \
     resource.qrc

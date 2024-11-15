@@ -19,11 +19,23 @@ IconResources::IconResources() {
     icons["combine"] = QIcon(":/pic/icons/combine.png");
     icons["rotate-left"] = QIcon(":/pic/icons/rotate-ccw.png");
     icons["rotate-right"] = QIcon(":/pic/icons/rotate-cw.png");
+    icons["search"] = QIcon(":/pic/icons/search.png");
+
+    pixmaps["store"] = QPixmap(":/pic/icons/store.png");
 }
+
+
 
 const QMap<QString, QIcon> &IconResources::getIcons() {
     if (!_instance) {
         _instance = new IconResources;
     }
     return _instance->icons;
+}
+
+const QMap<QString, QPixmap> &IconResources::getPixmaps() {
+    if (!_instance) {
+        _instance = new IconResources;
+    }
+    return _instance->pixmaps;
 }

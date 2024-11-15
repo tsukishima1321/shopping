@@ -4,11 +4,11 @@
 #include "DataInterface.h"
 #include "CurrentUser.h"
 #include <QMessageBox>
+#include "UserMainWindow.h"
 
 Login::Login(QWidget *parent) :
         QDialog(parent),
         ui(new Ui::Login) {
-    this->setAttribute(Qt::WA_DeleteOnClose, true);
     ui->setupUi(this);
     ui->toolButton->setIcon(IconResources::getIcons()["square-x"]);
     ui->lineEditName->setFocus();
@@ -37,7 +37,8 @@ void Login::pushButton_clicked() {
         }else{
             CurrentUser::getInstance()->setUser(user);
         }
-        // 打开主窗口
+        UserMainWindow *userMainWindow = new UserMainWindow();
+        userMainWindow->show();
         this->done(QDialog::Accepted);
     } else {
         QMessageBox::warning(this, "登录失败", "用户名或密码错误");

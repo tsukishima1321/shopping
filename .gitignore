@@ -9,3 +9,4 @@ Makefile
 Makefile.Debug
 Makefile.Release
 shijimacloset.pro.user
+config.ini

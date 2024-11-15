@@ -18,5 +18,8 @@
         <file>icons/combine.png</file>
         <file>icons/rotate-cw.png</file>
         <file>icons/rotate-ccw.png</file>
+        <file>images/empty-page.png</file>
+        <file>icons/store.png</file>
+        <file>icons/search.png</file>
     </qresource>
 </RCC>

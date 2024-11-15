@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS Users;
 
 CREATE TABLE Users (
     UserID INT PRIMARY KEY IDENTITY(1, 1),
-    UserName VARCHAR(20) NOT NULL,
+    UserName VARCHAR(20) NOT NULL UNIQUE,
     Password VARCHAR(20) NOT NULL,
     RegisterTime DATETIME NOT NULL,
     LastLoginTime DATETIME NOT NULL,
@@ -159,6 +159,12 @@ CREATE TABLE UserPermission (
     AllowAddGoods BIT NOT NULL,
     AllowHandleOrder BIT NOT NULL
 );
+
+-- 商家信息视图
+CREATE VIEW SellerDetail AS
+SELECT Seller.UserID, Users.UserName, Seller.Phone, Seller.IDNumber, Seller.RealName
+FROM Seller
+INNER JOIN Users ON Seller.UserID = Users.UserID;
 
 -- 商品详情视图
 CREATE VIEW GoodsDetail AS

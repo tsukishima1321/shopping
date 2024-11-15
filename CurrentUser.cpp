@@ -5,6 +5,8 @@ CurrentUser* CurrentUser::instance = nullptr;
 CurrentUser::CurrentUser() {
     login = false;
     sellerLogin = false;
+    user = nullptr;
+    seller = nullptr;
 }
 
 CurrentUser* CurrentUser::getInstance() {
@@ -23,23 +25,24 @@ bool CurrentUser::isSeller() const {
 }
 
 User CurrentUser::getUser() const {
-    if(login) return user;
+    if(login) return *user;
     return User();
 }
 
 void CurrentUser::setUser(User user) {
-    this->user = user;
+    this->user = new User(user);
     login = true;
     sellerLogin = false;
 }
 
 Seller CurrentUser::getSeller() const {
-    if(sellerLogin) return seller;
+    if(sellerLogin) return *seller;
     return Seller();
 }
 
 void CurrentUser::setSeller(Seller seller) {
-    this->seller = seller;
+    this->seller = new Seller(seller);
+    this->user = this->seller;
     login = true;
     sellerLogin = true;
 }
