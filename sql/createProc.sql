@@ -1,5 +1,22 @@
 -- Description: 创建存储过程
 
+-- 用户注册
+DROP PROCEDURE IF EXISTS sp_UserRegist;
+CREATE PROCEDURE sp_UserRegist
+    @UserName VARCHAR(20),
+    @Password VARCHAR(20)
+AS
+BEGIN
+-- 不允许用户名重复
+    IF EXISTS (SELECT UserID FROM Users WHERE UserName = @UserName)
+    BEGIN
+        RETURN;
+    END
+    INSERT INTO Users (UserName, Password, RegisterTime, LastLoginTime, isSeller)
+    VALUES (@UserName, @Password, GETDATE(), GETDATE(), 0);
+    SELECT SCOPE_IDENTITY();
+END
+
 -- 用户登录
 DROP PROCEDURE IF EXISTS sp_UserLogin;
 CREATE PROCEDURE sp_UserLogin

@@ -20,6 +20,7 @@ User DataInterface::getUserById(ID_t id) {
         query2.addBindValue(id);
         query2.exec();
         ID_t defaultAddressId = -1;
+        user.defaultAddress = nullptr;
         while (query2.next()) {
             Address address;
             address.id = query2.value("AddressID").toUInt();
@@ -61,6 +62,7 @@ Seller DataInterface::getSellerById(ID_t id) {
         query2.addBindValue(id);
         query2.exec();
         ID_t defaultAddressId = -1;
+        seller.defaultAddress = nullptr;
         while (query2.next()) {
             Address address;
             address.id = query2.value("AddressID").toUInt();
@@ -305,7 +307,7 @@ std::optional<ID_t> DataInterface::UserLogin(const QString &name, const QString 
     query.addBindValue(name);
     query.addBindValue(password);
     if (!query.exec()) {
-        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text() + "\n数据库查询失败");
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
         return std::nullopt;
     }
     if (query.next()) {
@@ -316,12 +318,27 @@ std::optional<ID_t> DataInterface::UserLogin(const QString &name, const QString 
 
 std::optional<ID_t> DataInterface::AdminLogin(const QString &name, const QString &password) {
     QSqlQuery query(DBInstance::getInstance());
-    query.prepare("SELECT AdminID FROM Admin WHERE UserName = ? AND Password = ?");
+    query.prepare("SELECT AdminID FROM Admin WHERE AdminName = ? AND Password = ?");
     query.addBindValue(name);
     query.addBindValue(password);
     query.exec();
     if (query.next()) {
         return query.value("AdminID").toUInt();
+    }
+    return std::nullopt;
+}
+
+std::optional<ID_t> DataInterface::UserRegist(const QString &name, const QString &password) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_UserRegist ?, ?");
+    query.addBindValue(name);
+    query.addBindValue(password);
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
+        return std::nullopt;
+    }
+    if (query.next()) {
+        return query.value("UserID").toUInt();
     }
     return std::nullopt;
 }

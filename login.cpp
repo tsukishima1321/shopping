@@ -1,10 +1,11 @@
 #include "login.h"
+#include "CurrentUser.h"
+#include "DataInterface.h"
+#include "UserMainWindow.h"
+#include "UserRegistWindow.h"
 #include "iconresources.h"
 #include "ui_login.h"
-#include "DataInterface.h"
-#include "CurrentUser.h"
 #include <QMessageBox>
-#include "UserMainWindow.h"
 
 Login::Login(QWidget *parent) :
         QDialog(parent),
@@ -28,25 +29,40 @@ Login::~Login() {
 }
 
 void Login::pushButton_clicked() {
-    std::optional<ID_t> userId = DataInterface::UserLogin(ui->lineEditName->text(), ui->lineEditPwd->text());
-    if (userId.has_value()) {
-        User user = DataInterface::getUserById(userId.value());
-        if(user.isSeller){
-            Seller seller = DataInterface::getSellerById(userId.value());
-            CurrentUser::getInstance()->setSeller(seller);
-        }else{
-            CurrentUser::getInstance()->setUser(user);
+    if (ui->checkBox->isChecked()) {
+        std::optional<ID_t> adminID = DataInterface::AdminLogin(ui->lineEditName->text(), ui->lineEditPwd->text());
+        if (adminID.has_value()) {
+            QMessageBox::information(this, "登录成功", "管理员登录成功");
+            /*
+            AdminMainWindow *adminMainWindow = new AdminMainWindow();
+            adminMainWindow->show();
+            */
+            this->done(QDialog::Accepted);
+        } else {
+            QMessageBox::warning(this, "登录失败", "管理员用户名或密码错误");
         }
-        UserMainWindow *userMainWindow = new UserMainWindow();
-        userMainWindow->show();
-        this->done(QDialog::Accepted);
     } else {
-        QMessageBox::warning(this, "登录失败", "用户名或密码错误");
+        std::optional<ID_t> userId = DataInterface::UserLogin(ui->lineEditName->text(), ui->lineEditPwd->text());
+        if (userId.has_value()) {
+            User user = DataInterface::getUserById(userId.value());
+            if (user.isSeller) {
+                Seller seller = DataInterface::getSellerById(userId.value());
+                CurrentUser::getInstance()->setSeller(seller);
+            } else {
+                CurrentUser::getInstance()->setUser(user);
+            }
+            UserMainWindow *userMainWindow = new UserMainWindow();
+            userMainWindow->show();
+            this->done(QDialog::Accepted);
+        } else {
+            QMessageBox::warning(this, "登录失败", "用户名或密码错误");
+        }
     }
 }
 
 void Login::registButton_clicked() {
-    // 打开注册窗口
+    UserRegistWindow *userRegistWindow = new UserRegistWindow();
+    userRegistWindow->show();
 }
 
 void Login::lineEditName_returnPressed() {

@@ -22,6 +22,7 @@ void ShopPreviewForm::setShop(Shop shop){
 }
 
 void ShopPreviewForm::mouseDoubleClickEvent(QMouseEvent *event) {
+    (void) event;
     /*
     ShopWindow *shopWindow = new ShopWindow(shop.id);
     shopWindow->show();

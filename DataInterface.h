@@ -139,5 +139,7 @@ namespace DataInterface{
 
     std::optional<ID_t> UserLogin(const QString &name, const QString &password);
     std::optional<ID_t> AdminLogin(const QString &name, const QString &password);
+
+    std::optional<ID_t> UserRegist(const QString &name, const QString &password);
 }
 
