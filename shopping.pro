@@ -13,10 +13,23 @@ CONFIG+=c++2a
 
 SOURCES += \
         main.cpp \
+        DBInstance.cpp \
+        GlobalConfig.cpp \
+        DataInterface.cpp \
+        CurrentUser.cpp \
+        IconResources.cpp \
+        login.cpp \
 
 HEADERS += \
+        DBInstance.h \
+        GlobalConfig.h \
+        DataInterface.h \
+        CurrentUser.h \
+        IconResources.h \
+        login.h \
 
 FORMS += \
+        login.ui
 
 RESOURCES += \
     resource.qrc

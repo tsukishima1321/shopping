@@ -162,15 +162,16 @@ CREATE TABLE UserPermission (
 
 -- 商品详情视图
 CREATE VIEW GoodsDetail AS
-SELECT Goods.GoodsID, Goods.GoodsName, Goods.Description, Goods.Price, Goods.Status, Goods.Image, Shop.ShopID, Shop.ShopName, Shop.Description AS ShopDescription, Shop.Status AS ShopStatus
+SELECT Goods.GoodsID, Goods.GoodsName, Goods.Description, Goods.Price, Goods.Status, Goods.Image, Shop.ShopID, Shop.ShopName, Shop.Status AS ShopStatus
 FROM Goods
 INNER JOIN Shop ON Goods.ShopID = Shop.ShopID;
 
 -- 店铺详情视图
 CREATE VIEW ShopDetail AS
-SELECT Shop.ShopID, Shop.ShopName, Shop.Description, Shop.Status, Seller.UserID, Seller.Phone, Seller.IDNumber, Seller.RealName
+SELECT Shop.ShopID, Shop.ShopName, Shop.Description, Shop.Status, Seller.UserID, Users.UserName, Seller.Phone, Seller.IDNumber, Seller.RealName
 FROM Shop
-INNER JOIN Seller ON Shop.SellerID = Seller.UserID;
+INNER JOIN Seller ON Shop.SellerID = Seller.UserID
+INNER JOIN Users ON Seller.UserID = Users.UserID;
 
 -- 订单详情视图
 CREATE VIEW OrderDetail AS
@@ -180,14 +181,14 @@ INNER JOIN Users ON Orders.UserID = Users.UserID;
 
 -- 订单商品详情视图
 CREATE VIEW OrderGoodsDetail AS
-SELECT OrderGoods.OrderID, OrderGoods.GoodsID, OrderGoods.Quantity, Goods.GoodsName, Goods.Price, Goods.Status, Goods.Image, Shop.ShopName
+SELECT OrderGoods.OrderID, OrderGoods.GoodsID, OrderGoods.Quantity, Goods.GoodsName, Goods.Price, Goods.Status, Goods.Image, Shop.ShopName, Shop.ShopID
 FROM OrderGoods
 INNER JOIN Goods ON OrderGoods.GoodsID = Goods.GoodsID
 INNER JOIN Shop ON Goods.ShopID = Shop.ShopID;
 
 -- 用户购物车视图
 CREATE VIEW CartGoodsDetail AS
-SELECT CartGoods.UserID, CartGoods.GoodsID, CartGoods.Quantity, Goods.GoodsName, Goods.Price, Goods.Status, Goods.Image, Shop.ShopName
+SELECT CartGoods.UserID, CartGoods.GoodsID, CartGoods.Quantity, Goods.GoodsName, Goods.Price, Goods.Status, Goods.Image, Shop.ShopName, Shop.ShopID
 FROM CartGoods
 INNER JOIN Goods ON CartGoods.GoodsID = Goods.GoodsID
 INNER JOIN Shop ON Goods.ShopID = Shop.ShopID;

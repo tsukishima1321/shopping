@@ -1,4 +1,22 @@
 <RCC>
-    <qresource prefix="/images">
+    <qresource prefix="/pic"/>
+    <qresource prefix="/pic" lang="pic">
+        <file>icons/download.png</file>
+        <file>icons/refresh.png</file>
+        <file>icons/reset.png</file>
+        <file>icons/square.png</file>
+        <file>icons/square-check.png</file>
+        <file>icons/square-x.png</file>
+        <file>icons/step-back.png</file>
+        <file>icons/step-forward.png</file>
+        <file>icons/trash.png</file>
+        <file>backgrounds/logInBack.jpg</file>
+        <file>icons/icon.ico</file>
+        <file>icons/zoom-in.png</file>
+        <file>icons/zoom-out.png</file>
+        <file>icons/file-plus.png</file>
+        <file>icons/combine.png</file>
+        <file>icons/rotate-cw.png</file>
+        <file>icons/rotate-ccw.png</file>
     </qresource>
 </RCC>

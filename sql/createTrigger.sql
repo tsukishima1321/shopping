@@ -31,3 +31,16 @@ BEGIN
     WHERE UserID = @UserID;
     FETCH NEXT FROM insert_cursor INTO @UserID
 END;
+
+-- 插入地址时，若只有一个地址，则自动设置为默认地址
+DROP TRIGGER IF EXISTS tr_AddressCreate;
+CREATE TRIGGER tr_AddressCreate ON Address AFTER INSERT
+AS
+DECLARE @UserID INT
+SELECT @UserID = UserID FROM inserted
+IF (SELECT COUNT(*) FROM Address WHERE UserID = @UserID) = 1
+BEGIN
+    UPDATE Address
+    SET IsDefault = 1
+    WHERE UserID = @UserID
+END;
