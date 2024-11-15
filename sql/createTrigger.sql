@@ -44,3 +44,29 @@ BEGIN
     SET IsDefault = 1
     WHERE UserID = @UserID
 END;
+
+-- 认证申请被接受时，自动更新商家信息
+DROP TRIGGER IF EXISTS tr_AuthAccept;
+CREATE TRIGGER tr_AuthAccept ON SellerApply FOR UPDATE
+AS
+DECLARE @UserID INT
+DECLARE @RealName VARCHAR(20)
+DECLARE @IDNumber VARCHAR(20)
+DECLARE @Phone VARCHAR(20)
+DECLARE @Result INT
+SELECT @UserID = UserID, @RealName = RealName, @IDNumber = IDNumber, @Phone = Phone, @Result = Status FROM inserted;
+IF @Result = 1
+BEGIN
+    IF EXISTS (SELECT * FROM Seller WHERE UserID = @UserID)
+    BEGIN
+        UPDATE Seller
+        SET RealName = @RealName, IDNumber = @IDNumber, Phone = @Phone
+        WHERE UserID = @UserID
+    END
+    ELSE
+    BEGIN
+        INSERT INTO Seller (UserID, RealName, IDNumber, Phone)
+        VALUES (@UserID, @RealName, @IDNumber, @Phone)
+    END
+END;
+

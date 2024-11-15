@@ -1,4 +1,5 @@
 #include "DataInterface.h"
+#include "CurrentUser.h"
 #include "DBInstance.h"
 #include <QMessageBox>
 #include <QSqlError>
@@ -6,9 +7,12 @@
 
 User DataInterface::getUserById(ID_t id) {
     QSqlQuery query(DBInstance::getInstance());
-    query.prepare("SELECT * FROM users WHERE UserID = ?");
+    query.prepare("SELECT * FROM Users WHERE UserID = ?");
     query.addBindValue(id);
-    query.exec();
+    if(!query.exec()){
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
+        return User();
+    }
     if (query.next()) {
         User user;
         user.id = query.value("UserID").toUInt();
@@ -32,8 +36,8 @@ User DataInterface::getUserById(ID_t id) {
             }
             user.addresses.append(address);
         }
-        for(int i = 0; i < user.addresses.size(); i++){
-            if(user.addresses[i].id == defaultAddressId){
+        for (int i = 0; i < user.addresses.size(); i++) {
+            if (user.addresses[i].id == defaultAddressId) {
                 user.defaultAddress = &user.addresses[i];
                 break;
             }
@@ -41,6 +45,20 @@ User DataInterface::getUserById(ID_t id) {
         return user;
     }
     return User();
+}
+
+void DataInterface::reFreshCurrentUserInfo() {
+    if (!CurrentUser::getInstance()->isLogin())
+        return;
+    if (CurrentUser::getInstance()->getUser().isSeller) {
+        ID_t id = CurrentUser::getInstance()->getUser().id;
+        Seller seller = getSellerById(id);
+        CurrentUser::getInstance()->setSeller(seller);
+    } else {
+        ID_t id = CurrentUser::getInstance()->getUser().id;
+        User user = getUserById(id);
+        CurrentUser::getInstance()->setUser(user);
+    }
 }
 
 Seller DataInterface::getSellerById(ID_t id) {
@@ -149,6 +167,23 @@ QVector<Shop> DataInterface::getShopsBySellerId(ID_t id) {
         shopList.append(getShopById(shopId));
     }
     return shopList;
+}
+
+QVector<Address> DataInterface::getAddressesByUserId(ID_t id) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("SELECT * FROM Address WHERE UserID = ?");
+    query.addBindValue(id);
+    query.exec();
+    QVector<Address> addressList;
+    while (query.next()) {
+        Address address;
+        address.id = query.value("AddressID").toUInt();
+        address.addressText = query.value("Address").toString();
+        address.receiverName = query.value("Receiver").toString();
+        address.receiverPhone = query.value("Phone").toString();
+        addressList.append(address);
+    }
+    return addressList;
 }
 
 UserPermission DataInterface::getUserPermissionByUserId(ID_t id) {
@@ -339,6 +374,84 @@ std::optional<ID_t> DataInterface::UserRegist(const QString &name, const QString
     }
     if (query.next()) {
         return query.value("UserID").toUInt();
+    }
+    return std::nullopt;
+}
+
+SellerApplyStatus DataInterface::SellerApply(ID_t userID, const QString &phone, const QString &realName, const QString &realIdentityNumber) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_SellerApply ?, ?, ?, ?");
+    query.addBindValue(userID);
+    query.addBindValue(phone);
+    query.addBindValue(realName);
+    query.addBindValue(realIdentityNumber);
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
+        return DBError;
+    }
+    if (query.next()) {
+        return Success;
+    }
+    return AlreadyApplied;
+}
+
+std::optional<ID_t> DataInterface::UpdateUser(const User &user) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_UpdateUserInfo ?, ?, ?");
+    query.addBindValue(user.id);
+    query.addBindValue(user.name);
+    query.addBindValue(user.password);
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
+        return std::nullopt;
+    }
+    if (query.next()) {
+        query.finish();
+        reFreshCurrentUserInfo();
+        return query.value("UserID").toUInt();
+    }
+    return std::nullopt;
+}
+
+bool DataInterface::DeleteAddress(ID_t addressId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("DELETE FROM Address WHERE AddressID = ?");
+    query.addBindValue(addressId);
+    if(!query.exec()){
+        return false;
+    }
+    query.finish();
+    reFreshCurrentUserInfo();
+    return true;
+}
+
+bool DataInterface::SetDefaultAddress(ID_t addressId, ID_t userId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_SetDefaultAddress ?, ?");
+    query.addBindValue(userId);
+    query.addBindValue(addressId);
+    if (!query.exec()) {
+        return false;
+    }
+    query.finish();
+    reFreshCurrentUserInfo();
+    return true;
+}
+
+std::optional<ID_t> DataInterface::AddAddress(const QString &addressText, const QString &receiverName, const QString &receiverPhone, ID_t userId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_AddAddress ?, ?, ?, ?");
+    query.addBindValue(userId);
+    query.addBindValue(receiverName);
+    query.addBindValue(receiverPhone);
+    query.addBindValue(addressText);
+    if (!query.exec()) {
+        return std::nullopt;
+    }
+    if (query.next()) {
+        query.finish();
+        reFreshCurrentUserInfo();
+        return query.value("AddressID").toUInt();
     }
     return std::nullopt;
 }

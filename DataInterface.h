@@ -117,12 +117,21 @@ enum ShopOrder{
     ShopNameDescending
 };
 
+enum SellerApplyStatus{
+    Success,
+    AlreadyApplied,
+    DBError
+};
+
 namespace DataInterface{
+    void reFreshCurrentUserInfo();
+
     User getUserById(ID_t id);
     Seller getSellerById(ID_t id);
     Shop getShopById(ID_t id);
     Goods getGoodsById(ID_t id);
 
+    QVector<Address> getAddressesByUserId(ID_t userId);
     QVector<Shop> getShopsBySellerId(ID_t sellerId);
     QVector<Comment> getCommentsByGoodsId(ID_t goodsId);
     UserPermission getUserPermissionByUserId(ID_t id);
@@ -138,5 +147,13 @@ namespace DataInterface{
     std::optional<ID_t> AdminLogin(const QString &name, const QString &password);
 
     std::optional<ID_t> UserRegist(const QString &name, const QString &password);
+
+    SellerApplyStatus SellerApply(ID_t userID, const QString &phone, const QString &realName, const QString &realIdentityNumber);
+
+    std::optional<ID_t> UpdateUser(const User &user);
+
+    bool DeleteAddress(ID_t addressId);
+    bool SetDefaultAddress(ID_t addressId, ID_t userId);
+    std::optional<ID_t> AddAddress(const QString &addressText, const QString &receiverName, const QString &receiverPhone, ID_t userId);
 }
 

@@ -20,6 +20,7 @@ IconResources::IconResources() {
     icons["rotate-left"] = QIcon(":/pic/icons/rotate-ccw.png");
     icons["rotate-right"] = QIcon(":/pic/icons/rotate-cw.png");
     icons["search"] = QIcon(":/pic/icons/search.png");
+    icons["new-address"] = QIcon(":/pic/icons/map-pin-plus.png");
 
     pixmaps["store"] = QPixmap(":/pic/icons/store.png");
 }

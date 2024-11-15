@@ -88,7 +88,27 @@ void UserMainWindow::buttonAddShopClicked() {
 
 void UserMainWindow::buttonEditUserClicked() {
     EditUserWindow *editUserWindow = new EditUserWindow();
+    connect(editUserWindow, &EditUserWindow::userChanged, this, &UserMainWindow::refreshUser);
     editUserWindow->show();
+}
+
+void UserMainWindow::refreshUser() {
+    ui->labelUserName->setText(CurrentUser::getInstance()->getUser().name);
+    ui->labelUserName->adjustSize();
+    if(CurrentUser::getInstance()->getUser().defaultAddress == nullptr){
+        ui->labelDefaultAddress->setText("未设置地址信息");
+    } else {
+        ui->labelDefaultAddress->setText(CurrentUser::getInstance()->getUser().defaultAddress->addressText);
+        ui->labelDefaultAddress->adjustSize();
+    }
+    if (CurrentUser::getInstance()->isSeller()) {
+        ui->labelSellerName->setText(CurrentUser::getInstance()->getSeller().name);
+        ui->labelSellerName->adjustSize();
+        ui->labelSellerRealName->setText(CurrentUser::getInstance()->getSeller().realName);
+        ui->labelSellerRealName->adjustSize();
+        ui->labelSellerIDNumber->setText(CurrentUser::getInstance()->getSeller().realIdentityNumber);
+        ui->labelSellerIDNumber->adjustSize();
+    }
 }
 
 void UserMainWindow::buttonMyCollectionClicked() {

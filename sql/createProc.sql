@@ -230,3 +230,65 @@ BEGIN
     INNER JOIN Users ON Orders.UserID = Users.UserID
     WHERE Orders.ShopID IN (SELECT ShopID FROM Shop WHERE SellerID = @SellerID);
 END;
+
+-- 用户提交商家申请
+DROP PROCEDURE IF EXISTS sp_SellerApply;
+CREATE PROCEDURE sp_SellerApply
+    @UserID INT
+    @Phone VARCHAR(20),
+    @RealName VARCHAR(20),
+    @IDCard VARCHAR(20)
+AS
+BEGIN
+    IF EXISTS (SELECT UserID FROM SellerApply WHERE UserID = @UserID AND Status = 0)
+    BEGIN
+        RETURN;
+    END
+    INSERT INTO SellerApply (UserID, Phone, RealName, IDCard, ApplyTime, Status)
+    VALUES (@UserID, @Phone, @RealName, @IDCard, GETDATE(), 0);
+    SELECT SCOPE_IDENTITY();
+END;
+
+-- 管理员审核商家申请
+DROP PROCEDURE IF EXISTS sp_HandleSellerApply;
+CREATE PROCEDURE sp_HandleSellerApply
+    @ApplyID INT,
+    @Status BIT
+AS
+BEGIN
+    UPDATE SellerApply
+    SET Status = @Status
+    WHERE ApplyID = @ApplyID;
+END;
+
+-- 更新用户信息
+DROP PROCEDURE IF EXISTS sp_UpdateUserInfo;
+CREATE PROCEDURE sp_UpdateUserInfo
+    @UserID INT,
+    @UserName VARCHAR(20),
+    @Password VARCHAR(20)
+AS
+BEGIN
+    IF EXISTS (SELECT UserID FROM Users WHERE UserName = @UserName AND UserID != @UserID)
+    BEGIN
+        RETURN;
+    END
+    UPDATE Users
+    SET UserName = @UserName, Password = @Password
+    WHERE UserID = @UserID;
+    SELECT @UserID;
+END;
+
+-- 添加地址
+DROP PROCEDURE IF EXISTS sp_AddAddress;
+CREATE PROCEDURE sp_AddAddress
+    @UserID INT,
+    @Receiver VARCHAR(20),
+    @Phone VARCHAR(20),
+    @Address VARCHAR(100)
+AS
+BEGIN
+    INSERT INTO Address (UserID, Receiver, Phone, Address, IsDefault)
+    VALUES (@UserID, @Receiver, @Phone, @Address, 0);
+    SELECT SCOPE_IDENTITY();
+END;

@@ -22,6 +22,7 @@ private:
     void buttonMyOrderClicked();
     void buttonMyCartClicked();
     void buttonRefreshClicked();
+    void refreshUser();
 
     Ui::UserMainWindow *ui;
 

@@ -39,6 +39,28 @@ CREATE TABLE Seller (
     RealName VARCHAR(20) NOT NULL
 );
 
+DROP TABLE IF EXISTS SellerApply;
+CREATE TABLE SellerApply (
+    ApplyID INT PRIMARY KEY IDENTITY(1, 1),
+    UserID INT,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
+    Phone VARCHAR(11) NOT NULL,
+    IDNumber VARCHAR(18) NOT NULL,
+    RealName VARCHAR(20) NOT NULL,
+    ApplyTime DATETIME NOT NULL,
+    Status INT NOT NULL
+);
+EXEC sys.sp_addextendedproperty @name = N'MS_Description',
+@value = N'0: 未处理，1: 已通过，2: 已拒绝',
+@level0type = N'SCHEMA', @level0name = N'dbo', @level1type = N'TABLE', @level1name = N'SellerApply', @level2type = N'COLUMN', @level2name = N'Status';
+/*
+    Status:
+    0: 未处理
+    1: 已通过
+    2: 已拒绝
+*/
+
+
 CREATE TABLE Address (
     AddressID INT PRIMARY KEY IDENTITY(1, 1),
     UserID INT NOT NULL,
