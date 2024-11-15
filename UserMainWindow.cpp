@@ -2,6 +2,7 @@
 #include "CurrentUser.h"
 #include "DataInterface.h"
 #include "IconResources.h"
+#include "EditUserWindow.h"
 #include "ui_UserMainWindow.h"
 
 UserMainWindow::UserMainWindow(QWidget *parent) :
@@ -42,6 +43,15 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
     }
     ui->buttonSearch->setIcon(IconResources::getIcons()["search"]);
     ui->buttonRefresh->setIcon(IconResources::getIcons()["refresh"]);
+
+    connect(ui->buttonSearch, &QPushButton::clicked, this, &UserMainWindow::buttonSearchClicked);
+    connect(ui->buttonStartShopping, &QPushButton::clicked, this, &UserMainWindow::buttonStartShoppingClicked);
+    connect(ui->buttonAddShop, &QPushButton::clicked, this, &UserMainWindow::buttonAddShopClicked);
+    connect(ui->buttonEditUser, &QPushButton::clicked, this, &UserMainWindow::buttonEditUserClicked);
+    connect(ui->buttonMyCollect, &QPushButton::clicked, this, &UserMainWindow::buttonMyCollectionClicked);
+    connect(ui->buttonMyOrder, &QPushButton::clicked, this, &UserMainWindow::buttonMyOrderClicked);
+    connect(ui->buttonMyCart, &QPushButton::clicked, this, &UserMainWindow::buttonMyCartClicked);
+    connect(ui->buttonRefresh, &QToolButton::clicked, this, &UserMainWindow::buttonRefreshClicked);
 }
 
 void UserMainWindow::buttonRefreshClicked() {
@@ -77,10 +87,8 @@ void UserMainWindow::buttonAddShopClicked() {
 }
 
 void UserMainWindow::buttonEditUserClicked() {
-    /*
     EditUserWindow *editUserWindow = new EditUserWindow();
     editUserWindow->show();
-    */
 }
 
 void UserMainWindow::buttonMyCollectionClicked() {

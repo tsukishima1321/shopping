@@ -22,6 +22,7 @@ SOURCES += \
         UserMainWindow.cpp \
         ShopPreviewForm.cpp \
         UserRegistWindow.cpp \
+        EditUserWindow.cpp \
 
 HEADERS += \
         DBInstance.h \
@@ -33,12 +34,14 @@ HEADERS += \
         UserMainWindow.h \
         ShopPreviewForm.h \
         UserRegistWindow.h \
+        EditUserWindow.h \
 
 FORMS += \
         login.ui \
         UserMainWindow.ui \
         ShopPreviewForm.ui \
         UserRegistWindow.ui \
+        EditUserWindow.ui \
 
 RESOURCES += \
     resource.qrc

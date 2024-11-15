@@ -29,9 +29,6 @@ public:
     Price operator*(unsigned int x) const {
         return this->price * x;
     }
-    operator unsigned int() const {
-        return price;
-    }
     operator double() const {
         return price / 100.0;
     }

@@ -17,6 +17,8 @@ Login::Login(QWidget *parent) :
     setAttribute(Qt::WA_TranslucentBackground);
     ui->pushButton->setAutoDefault(false);
     ui->pushButton->setDefault(false);
+    ui->buttonRegist->setAutoDefault(false);
+    ui->buttonRegist->setDefault(false);
     connect(ui->lineEditPwd, &QLineEdit::returnPressed, this, &Login::pushButton_clicked);
     connect(ui->lineEditName, &QLineEdit::returnPressed, this, &Login::lineEditName_returnPressed);
     connect(ui->pushButton, &QPushButton::clicked, this, &Login::pushButton_clicked);
@@ -66,5 +68,5 @@ void Login::registButton_clicked() {
 }
 
 void Login::lineEditName_returnPressed() {
-    this->focusNextChild();
+    ui->lineEditPwd->setFocus();
 }
