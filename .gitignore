@@ -1,0 +1,11 @@
+build/
+.vscode/
+*.pro.user
+*.pro.user.*
+debug/
+release/
+Makefile
+*.o
+Makefile.Debug
+Makefile.Release
+shijimacloset.pro.user
