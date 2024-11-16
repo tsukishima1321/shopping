@@ -147,6 +147,12 @@ CREATE PROCEDURE sp_AddComment
     @Content VARCHAR(100)
 AS
 BEGIN
+    DECLARE @AllowComment BIT;
+    SELECT @AllowComment = AllowComment FROM UserPermissionDetail WHERE UserID = @UserID;
+    IF @AllowComment = 0
+    BEGIN
+        RETURN;
+    END
     INSERT INTO Comment (GoodsID, UserID, Content, CreateTime)
     VALUES (@GoodsID, @UserID, @Content, GETDATE());
     SELECT SCOPE_IDENTITY();

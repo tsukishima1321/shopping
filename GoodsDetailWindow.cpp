@@ -44,6 +44,11 @@ void GoodsDetailWindow::refreshComments() {
 }
 
 void GoodsDetailWindow::addComment() {
+    UserPermission permission = DataInterface::getUserPermissionByUserId(CurrentUser::getInstance()->getUserId());
+    if (!permission.allowComment) {
+        QMessageBox::warning(this, "错误", "你已被禁止发布评论");
+        return;
+    }
     QDialog dialog;
     QVBoxLayout layout(&dialog);
     QLabel label("请输入评论");
