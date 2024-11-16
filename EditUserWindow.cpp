@@ -30,7 +30,7 @@ SetDefaultButton::SetDefaultButton(ID_t addressID, QWidget *parent) :
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     setMinimumSize(32, 32);
     connect(this, &SetDefaultButton::clicked, [this] {
-        if (DataInterface::SetDefaultAddress(this->addressId, CurrentUser::getInstance()->getUser().id)) {
+        if (DataInterface::SetDefaultAddress(this->addressId, CurrentUser::getInstance()->getUserId())) {
             emit defaultAddressChanged();
         } else {
             QMessageBox::warning(this, "设置失败", "设置失败");
@@ -95,7 +95,7 @@ void EditUserWindow::newAddress() {
     QString addressText = QInputDialog::getText(this, "输入地址", "请输入地址");
     QString receiverName = QInputDialog::getText(this, "输入收件人姓名", "请输入收件人姓名");
     QString receiverPhone = QInputDialog::getText(this, "输入收件人电话", "请输入收件人电话");
-    std::optional<ID_t> id = DataInterface::AddAddress(addressText, receiverName, receiverPhone, CurrentUser::getInstance()->getUser().id);
+    std::optional<ID_t> id = DataInterface::AddAddress(addressText, receiverName, receiverPhone, CurrentUser::getInstance()->getUserId());
     if (id.has_value()) {
         refreshAddressTable();
         emit userChanged();

@@ -23,6 +23,12 @@ bool CurrentUser::isSeller() const {
     return sellerLogin;
 }
 
+ID_t CurrentUser::getUserId() const {
+    if (login)
+        return user->id;
+    return 0;
+}
+
 User CurrentUser::getUser() const {
     if (login)
         return *user;

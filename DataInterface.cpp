@@ -148,11 +148,11 @@ void DataInterface::reFreshCurrentUserInfo() {
     if (!CurrentUser::getInstance()->isLogin())
         return;
     if (CurrentUser::getInstance()->getUser().isSeller) {
-        ID_t id = CurrentUser::getInstance()->getUser().id;
+        ID_t id = CurrentUser::getInstance()->getUserId();
         Seller seller = getSellerById(id);
         CurrentUser::getInstance()->setSeller(seller);
     } else {
-        ID_t id = CurrentUser::getInstance()->getUser().id;
+        ID_t id = CurrentUser::getInstance()->getUserId();
         User user = getUserById(id);
         CurrentUser::getInstance()->setUser(user);
     }

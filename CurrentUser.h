@@ -6,6 +6,7 @@ class CurrentUser {
         static CurrentUser* getInstance();
         bool isLogin() const;
         bool isSeller() const;
+        ID_t getUserId() const;
         User getUser() const;
         void setUser(User user);
         Seller getSeller() const;

@@ -5,6 +5,7 @@
 #include "EditUserWindow.h"
 #include "SellerApplyWindow.h"
 #include "ui_UserMainWindow.h"
+#include <QMessageBox>
 
 UserMainWindow::UserMainWindow(QWidget *parent) :
         QMainWindow(parent),
@@ -71,6 +72,11 @@ void UserMainWindow::buttonRefreshClicked() {
 
 void UserMainWindow::buttonSearchClicked() {
     QString searchName = ui->lineEdit->text();
+    UserPermission userPermission = DataInterface::getUserPermissionByUserId(CurrentUser::getInstance()->getUserId());
+    if(userPermission.allowShopping == 0){
+        QMessageBox::information(this, "提示", "你已被管理员禁止购物");
+        return;
+    }
     /*
     SearchWindow *searchWindow = new SearchWindow(searchName);
     searchWindow->show();
@@ -78,6 +84,11 @@ void UserMainWindow::buttonSearchClicked() {
 }
 
 void UserMainWindow::buttonStartShoppingClicked() {
+    UserPermission userPermission = DataInterface::getUserPermissionByUserId(CurrentUser::getInstance()->getUserId());
+    if(userPermission.allowShopping == 0){
+        QMessageBox::information(this, "提示", "你已被管理员禁止购物");
+        return;
+    }
     /*
     SearchWindow *SearchWindow = new SearchWindow();
     searchWindow->show();
@@ -85,7 +96,11 @@ void UserMainWindow::buttonStartShoppingClicked() {
 }
 
 void UserMainWindow::buttonAddShopClicked() {
-    
+    UserPermission userPermission = DataInterface::getUserPermissionByUserId(CurrentUser::getInstance()->getUserId());
+    if(userPermission.allowAddShop == 0){
+        QMessageBox::information(this, "提示", "你已被管理员禁止新建店铺");
+        return;
+    }
 }
 
 void UserMainWindow::buttonEditUserClicked() {
