@@ -49,25 +49,28 @@ END;
 DROP TRIGGER IF EXISTS tr_AuthAccept;
 CREATE TRIGGER tr_AuthAccept ON SellerApply FOR UPDATE
 AS
-DECLARE @UserID INT
-DECLARE @RealName VARCHAR(20)
-DECLARE @IDNumber VARCHAR(20)
-DECLARE @Phone VARCHAR(20)
-DECLARE @Result INT
-SELECT @UserID = UserID, @RealName = RealName, @IDNumber = IDNumber, @Phone = Phone, @Result = Status FROM inserted;
-IF @Result = 1
 BEGIN
-    IF EXISTS (SELECT * FROM Seller WHERE UserID = @UserID)
+    DECLARE @UserID INT
+    DECLARE @RealName VARCHAR(20)
+    DECLARE @IDNumber VARCHAR(20)
+    DECLARE @Phone VARCHAR(20)
+    DECLARE @Result INT
+    SELECT @UserID = UserID, @RealName = RealName, @IDNumber = IDNumber, @Phone = Phone, @Result = Status FROM inserted;
+    IF @Result = 1
     BEGIN
-        UPDATE Seller
-        SET RealName = @RealName, IDNumber = @IDNumber, Phone = @Phone
-        WHERE UserID = @UserID
-    END
-    ELSE
-    BEGIN
-        INSERT INTO Seller (UserID, RealName, IDNumber, Phone)
-        VALUES (@UserID, @RealName, @IDNumber, @Phone)
-        UPDATE Users SET IsSeller = 1 WHERE UserID = @UserID
+        IF EXISTS (SELECT * FROM Seller WHERE UserID = @UserID)
+        BEGIN
+            UPDATE Seller
+            SET RealName = @RealName, IDNumber = @IDNumber, Phone = @Phone
+            WHERE UserID = @UserID
+            UPDATE Users SET IsSeller = 1 WHERE UserID = @UserID
+        END
+        ELSE
+        BEGIN
+            INSERT INTO Seller (UserID, RealName, IDNumber, Phone)
+            VALUES (@UserID, @RealName, @IDNumber, @Phone)
+            UPDATE Users SET IsSeller = 1 WHERE UserID = @UserID
+        END
     END
 END;
 

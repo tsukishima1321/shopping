@@ -4,6 +4,7 @@
 #include "UserMainWindow.h"
 #include "UserRegistWindow.h"
 #include "iconresources.h"
+#include "AdminMainWindow.h"
 #include "ui_login.h"
 #include <QMessageBox>
 
@@ -35,10 +36,8 @@ void Login::pushButton_clicked() {
         std::optional<ID_t> adminID = DataInterface::AdminLogin(ui->lineEditName->text(), ui->lineEditPwd->text());
         if (adminID.has_value()) {
             QMessageBox::information(this, "登录成功", "管理员登录成功");
-            /*
             AdminMainWindow *adminMainWindow = new AdminMainWindow();
             adminMainWindow->show();
-            */
             this->done(QDialog::Accepted);
         } else {
             QMessageBox::warning(this, "登录失败", "管理员用户名或密码错误");
@@ -57,7 +56,7 @@ void Login::pushButton_clicked() {
             userMainWindow->show();
             this->done(QDialog::Accepted);
         } else {
-            QMessageBox::warning(this, "登录失败", "用户名或密码错误");
+            QMessageBox::warning(this, "登录失败", "用户名或密码错误，或你已被管理员禁止登录");
         }
     }
 }

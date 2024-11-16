@@ -24,14 +24,18 @@ CREATE PROCEDURE sp_UserLogin
     @Password VARCHAR(20)
 AS
 BEGIN
-    SELECT UserID FROM Users
-    WHERE UserName = @UserName AND Password = @Password;
-    -- 如果登录成功，更新最后登录时间
-    IF @@ROWCOUNT > 0
+    DECLARE @AllowLogin BIT;
+    IF EXISTS (SELECT UserID FROM Users WHERE UserName = @UserName AND Password = @Password)
     BEGIN
+        SELECT @AllowLogin = AllowLogin FROM UserPermissionDetail WHERE UserName = @UserName;
+        IF @AllowLogin = 0
+        BEGIN
+            RETURN;
+        END
         UPDATE Users
         SET LastLoginTime = GETDATE()
         WHERE UserName = @UserName;
+        SELECT UserID FROM Users WHERE UserName = @UserName AND Password = @Password;
     END
 END;
 

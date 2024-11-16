@@ -56,6 +56,12 @@ struct User {
     virtual ~User() = default;
 };
 
+struct UserWithTime{
+    User user;
+    QDateTime registerTime;
+    QDateTime lastLoginTime;
+};
+
 struct Seller : public User {
     QString phone;
     QString realIdentityNumber;
@@ -88,9 +94,25 @@ struct GoodsWithQuantity {
     Price totalPrice;
 };
 
+enum SellerApplyStatus {
+    Pending = 0,
+    Accept = 1,
+    Reject = 2
+};
+
+struct SellerApply {
+    ID_t id;
+    ID_t userId;
+    QString phone;
+    QString realName;
+    QString realIdentityNumber;
+    QDateTime time;
+    SellerApplyStatus status;
+};
+
 struct UserPermission {
     bool allowLogin;
-    bool AllowShopping;
+    bool allowShopping;
     bool allowComment;
     bool allowAddShop;
     bool allowAddGoods;
@@ -118,19 +140,26 @@ enum ShopOrder{
     ShopNameDescending
 };
 
-enum SellerApplyStatus{
+enum SellerApplySubmitStatus{
     Success,
     AlreadyApplied,
     DBError
 };
 
 namespace DataInterface{
+
     void reFreshCurrentUserInfo();
 
     User getUserById(ID_t id);
     Seller getSellerById(ID_t id);
     Shop getShopById(ID_t id);
     Goods getGoodsById(ID_t id);
+
+    QVector<UserWithTime> AdminGetAllUsers();
+    QVector<Seller> AdminGetAllSellers();
+    QVector<Shop> AdminGetAllShops();
+    QVector<Goods> AdminGetAllGoods();
+    QVector<SellerApply> AdminGetAllApplies();
 
     QVector<Address> getAddressesByUserId(ID_t userId);
     QVector<Shop> getShopsBySellerId(ID_t sellerId);
@@ -149,12 +178,20 @@ namespace DataInterface{
 
     std::optional<ID_t> UserRegist(const QString &name, const QString &password);
 
-    SellerApplyStatus SellerApply(ID_t userID, const QString &phone, const QString &realName, const QString &realIdentityNumber);
+    SellerApplySubmitStatus SubmitSellerApply(ID_t userID, const QString &phone, const QString &realName, const QString &realIdentityNumber);
 
     std::optional<ID_t> UpdateUser(const User &user);
+    bool setUserPermissionByUserId(ID_t id, const UserPermission &permission);
 
     bool DeleteAddress(ID_t addressId);
     bool SetDefaultAddress(ID_t addressId, ID_t userId);
     std::optional<ID_t> AddAddress(const QString &addressText, const QString &receiverName, const QString &receiverPhone, ID_t userId);
+
+    bool OpenShop(ID_t shopId);
+    bool CloseShop(ID_t shopId);
+    bool ActiveGoods(ID_t goodsId);
+    bool DeActiveGoods(ID_t goodsId);
+    bool AdminAcceptApply(ID_t applyId);
+    bool AdminRejectApply(ID_t applyId);
 }
 

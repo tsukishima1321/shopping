@@ -26,6 +26,8 @@ SOURCES += \
         UserRegistWindow.cpp \
         EditUserWindow.cpp \
         SellerApplyWindow.cpp \
+        AdminMainWindow.cpp \
+        EditUserPermission.cpp \
 
 HEADERS += \
         DBInstance.h \
@@ -39,6 +41,8 @@ HEADERS += \
         UserRegistWindow.h \
         EditUserWindow.h \
         SellerApplyWindow.h \
+        AdminMainWindow.h \
+        EditUserPermission.h \
 
 FORMS += \
         login.ui \
@@ -47,6 +51,8 @@ FORMS += \
         UserRegistWindow.ui \
         EditUserWindow.ui \
         SellerApplyWindow.ui \
+        AdminMainWindow.ui \
+        EditUserPermission.ui \
 
 RESOURCES += \
     resource.qrc

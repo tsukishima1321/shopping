@@ -9,7 +9,7 @@ User DataInterface::getUserById(ID_t id) {
     QSqlQuery query(DBInstance::getInstance());
     query.prepare("SELECT * FROM Users WHERE UserID = ?");
     query.addBindValue(id);
-    if(!query.exec()){
+    if (!query.exec()) {
         QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
         return User();
     }
@@ -45,6 +45,103 @@ User DataInterface::getUserById(ID_t id) {
         return user;
     }
     return User();
+}
+
+QVector<UserWithTime> DataInterface::AdminGetAllUsers() {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("SELECT * FROM Users");
+    query.exec();
+    QVector<UserWithTime> users;
+    while (query.next()) {
+        User user;
+        user.id = query.value("UserID").toUInt();
+        user.name = query.value("UserName").toString();
+        user.password = query.value("Password").toString();
+        user.isSeller = query.value("IsSeller").toBool();
+        UserWithTime userWithTime;
+        userWithTime.user = user;
+        userWithTime.registerTime = query.value("RegisterTime").toDateTime();
+        userWithTime.lastLoginTime = query.value("LastLoginTime").toDateTime();
+        users.append(userWithTime);
+    }
+    return users;
+}
+
+QVector<Seller> DataInterface::AdminGetAllSellers() {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("SELECT * FROM SellerDetail");
+    query.exec();
+    QVector<Seller> sellers;
+    while (query.next()) {
+        Seller seller;
+        seller.id = query.value("UserID").toUInt();
+        seller.name = query.value("UserName").toString();
+        seller.isSeller = true;
+        seller.phone = query.value("Phone").toString();
+        seller.realIdentityNumber = query.value("IDNumber").toString();
+        seller.realName = query.value("RealName").toString();
+        sellers.append(seller);
+    }
+    return sellers;
+}
+
+QVector<Shop> DataInterface::AdminGetAllShops() {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("SELECT * FROM ShopDetail");
+    query.exec();
+    QVector<Shop> shops;
+    while (query.next()) {
+        Shop shop;
+        shop.id = query.value("ShopID").toUInt();
+        shop.name = query.value("ShopName").toString();
+        shop.description = query.value("Description").toString();
+        shop.status = query.value("Status").toInt();
+        shop.sellerId = query.value("UserID").toUInt();
+        shop.sellerName = query.value("UserName").toString();
+        shops.append(shop);
+    }
+    return shops;
+}
+
+QVector<Goods> DataInterface::AdminGetAllGoods() {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("SELECT * FROM GoodsDetail");
+    query.exec();
+    QVector<Goods> goods;
+    while (query.next()) {
+        Goods good;
+        good.id = query.value("GoodsID").toUInt();
+        good.name = query.value("GoodsName").toString();
+        good.description = query.value("Description").toString();
+        good.price = query.value("Price").toDouble();
+        good.status = query.value("Status").toInt();
+        if (query.value("Image").isValid()) {
+            good.image = query.value("Image").toString();
+        }
+        good.shopId = query.value("ShopID").toUInt();
+        good.shopName = query.value("ShopName").toString();
+        goods.append(good);
+    }
+    return goods;
+}
+
+QVector<SellerApply> DataInterface::AdminGetAllApplies() {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("SELECT * FROM SellerApply");
+    query.exec();
+    QVector<SellerApply> applies;
+    while (query.next()) {
+        SellerApply apply;
+        apply.id = query.value("ApplyID").toUInt();
+        apply.userId = query.value("UserID").toUInt();
+        apply.phone = query.value("Phone").toString();
+        apply.realName = query.value("RealName").toString();
+        apply.realIdentityNumber = query.value("IDNumber").toString();
+        apply.status = SellerApplyStatus(query.value("Status").toInt());
+        apply.time = query.value("ApplyTime").toDateTime();
+        applies.append(apply);
+    }
+    return applies;
 }
 
 void DataInterface::reFreshCurrentUserInfo() {
@@ -194,7 +291,7 @@ UserPermission DataInterface::getUserPermissionByUserId(ID_t id) {
     if (query.next()) {
         UserPermission permission;
         permission.allowLogin = query.value("AllowLogin").toBool();
-        permission.AllowShopping = query.value("AllowShopping").toBool();
+        permission.allowShopping = query.value("AllowShopping").toBool();
         permission.allowComment = query.value("AllowComment").toBool();
         permission.allowAddShop = query.value("AllowAddShop").toBool();
         permission.allowAddGoods = query.value("AllowAddGoods").toBool();
@@ -378,7 +475,7 @@ std::optional<ID_t> DataInterface::UserRegist(const QString &name, const QString
     return std::nullopt;
 }
 
-SellerApplyStatus DataInterface::SellerApply(ID_t userID, const QString &phone, const QString &realName, const QString &realIdentityNumber) {
+SellerApplySubmitStatus DataInterface::SubmitSellerApply(ID_t userID, const QString &phone, const QString &realName, const QString &realIdentityNumber) {
     QSqlQuery query(DBInstance::getInstance());
     query.prepare("EXEC sp_SellerApply ?, ?, ?, ?");
     query.addBindValue(userID);
@@ -413,11 +510,24 @@ std::optional<ID_t> DataInterface::UpdateUser(const User &user) {
     return std::nullopt;
 }
 
+bool DataInterface::setUserPermissionByUserId(ID_t id, const UserPermission &permission){
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("UPDATE UserPermission SET AllowLogin = ?, AllowShopping = ?, AllowComment = ?, AllowAddShop = ?, AllowAddGoods = ?, AllowHandleOrder = ? WHERE UserID = ?");
+    query.addBindValue(permission.allowLogin);
+    query.addBindValue(permission.allowShopping);
+    query.addBindValue(permission.allowComment);
+    query.addBindValue(permission.allowAddShop);
+    query.addBindValue(permission.allowAddGoods);
+    query.addBindValue(permission.allowHandleOrder);
+    query.addBindValue(id);
+    return query.exec();
+}
+
 bool DataInterface::DeleteAddress(ID_t addressId) {
     QSqlQuery query(DBInstance::getInstance());
     query.prepare("DELETE FROM Address WHERE AddressID = ?");
     query.addBindValue(addressId);
-    if(!query.exec()){
+    if (!query.exec()) {
         return false;
     }
     query.finish();
@@ -454,4 +564,46 @@ std::optional<ID_t> DataInterface::AddAddress(const QString &addressText, const 
         return query.value("AddressID").toUInt();
     }
     return std::nullopt;
+}
+
+bool DataInterface::CloseShop(ID_t shopId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("UPDATE Shop SET Status = 1 WHERE ShopID = ?");
+    query.addBindValue(shopId);
+    return query.exec();
+}
+
+bool DataInterface::OpenShop(ID_t shopId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("UPDATE Shop SET Status = 0 WHERE ShopID = ?");
+    query.addBindValue(shopId);
+    return query.exec();
+}
+
+bool DataInterface::DeActiveGoods(ID_t goodsId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("UPDATE Goods SET Status = 1 WHERE GoodsID = ?");
+    query.addBindValue(goodsId);
+    return query.exec();
+}
+
+bool DataInterface::ActiveGoods(ID_t goodsId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("UPDATE Goods SET Status = 0 WHERE GoodsID = ?");
+    query.addBindValue(goodsId);
+    return query.exec();
+}
+
+bool DataInterface::AdminAcceptApply(ID_t applyId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("UPDATE SellerApply SET Status = 1 WHERE ApplyID = ?");
+    query.addBindValue(applyId);
+    return query.exec();
+}
+
+bool DataInterface::AdminRejectApply(ID_t applyId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("UPDATE SellerApply SET Status = 2 WHERE ApplyID = ?");
+    query.addBindValue(applyId);
+    return query.exec();
 }

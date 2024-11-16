@@ -24,10 +24,10 @@ void SellerApplyWindow::submitApply(){
         QMessageBox::warning(this, "提示", "请填写完整信息");
         return;
     }
-    SellerApplyStatus status = DataInterface::SellerApply(CurrentUser::getInstance()->getUser().id, ui->lineEditPhone->text(), ui->lineEditRealName->text(), ui->lineEditIDNumber->text());
-    if(status == SellerApplyStatus::Success){
+    SellerApplySubmitStatus status = DataInterface::SubmitSellerApply(CurrentUser::getInstance()->getUser().id, ui->lineEditPhone->text(), ui->lineEditRealName->text(), ui->lineEditIDNumber->text());
+    if(status == SellerApplySubmitStatus::Success){
         QMessageBox::information(this, "申请成功", "申请已提交，请耐心等待审核");
-    } else if(status == SellerApplyStatus::AlreadyApplied){
+    } else if(status == SellerApplySubmitStatus::AlreadyApplied){
         QMessageBox::warning(this, "提示", "存在正在审核的申请，请耐心等待");
     } else {
         QMessageBox::warning(this, "申请失败", "申请失败");
