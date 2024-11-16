@@ -31,6 +31,8 @@ SOURCES += \
         EditUserPermission.cpp \
         SearchWindow.cpp \
         GoodsPreviewForm.cpp \
+        GoodsDetailWindow.cpp \
+        CommentForm.cpp \ 
 
 HEADERS += \
         DBInstance.h \
@@ -48,6 +50,8 @@ HEADERS += \
         EditUserPermission.h \
         SearchWindow.h \
         GoodsPreviewForm.h \
+        GoodsDetailWindow.h \
+        CommentForm.h \ 
 
 FORMS += \
         login.ui \
@@ -60,6 +64,8 @@ FORMS += \
         EditUserPermission.ui \
         SearchWindow.ui \
         GoodsPreviewForm.ui \
+        GoodsDetailWindow.ui \
+        CommentForm.ui \ 
 
 RESOURCES += \
     resource.qrc

@@ -296,3 +296,33 @@ BEGIN
     VALUES (@UserID, @Receiver, @Phone, @Address, 0);
     SELECT SCOPE_IDENTITY();
 END;
+
+-- 用户将商品加入购物车
+DROP PROCEDURE IF EXISTS sp_AddGoodsToCart;
+CREATE PROCEDURE sp_AddGoodsToCart
+    @UserID INT,
+    @GoodsID INT,
+    @Quantity INT
+AS
+BEGIN
+    INSERT INTO CartGoods (UserID, GoodsID, Quantity)
+    VALUES (@UserID, @GoodsID, @Quantity);
+    SELECT SCOPE_IDENTITY();
+END;
+
+-- 用户将商品加入收藏
+DROP PROCEDURE IF EXISTS sp_AddGoodsToCollect;
+CREATE PROCEDURE sp_AddGoodsToCollect
+    @UserID INT,
+    @GoodsID INT
+AS
+BEGIN
+    IF EXISTS (SELECT CollectID FROM Collect WHERE UserID = @UserID AND GoodsID = @GoodsID)
+    BEGIN
+        RETURN;
+    END
+    INSERT INTO Collect (UserID, GoodsID, CreateTime)
+    VALUES (@UserID, @GoodsID, GETDATE());
+    SELECT SCOPE_IDENTITY();
+END;
+

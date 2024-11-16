@@ -120,9 +120,6 @@ struct UserPermission {
 };
 
 struct Comment {
-    ID_t id;
-    ID_t goodsId;
-    ID_t userId;
     QString userName;
     QString content;
     QDateTime time;
@@ -193,5 +190,10 @@ namespace DataInterface{
     bool DeActiveGoods(ID_t goodsId);
     bool AdminAcceptApply(ID_t applyId);
     bool AdminRejectApply(ID_t applyId);
+
+    bool AddGoodsToCart(ID_t userId, ID_t goodsId, unsigned int quantity);
+    bool AddGoodsToCollect(ID_t userId, ID_t goodsId);
+
+    bool AddComment(ID_t userId, ID_t goodsId, const QString& content);
 }
 

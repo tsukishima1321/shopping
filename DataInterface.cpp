@@ -283,6 +283,22 @@ QVector<Address> DataInterface::getAddressesByUserId(ID_t id) {
     return addressList;
 }
 
+QVector<Comment> DataInterface::getCommentsByGoodsId(ID_t id) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("SELECT * FROM CommentDetail WHERE GoodsID = ?");
+    query.addBindValue(id);
+    query.exec();
+    QVector<Comment> commentList;
+    while (query.next()) {
+        Comment comment;
+        comment.userName = query.value("UserName").toString();
+        comment.content = query.value("Content").toString();
+        comment.time = query.value("CreateTime").toDateTime();
+        commentList.append(comment);
+    }
+    return commentList;
+}
+
 UserPermission DataInterface::getUserPermissionByUserId(ID_t id) {
     QSqlQuery query(DBInstance::getInstance());
     query.prepare("SELECT * FROM UserPermission WHERE UserID = ?");
@@ -379,7 +395,7 @@ QVector<Goods> DataInterface::searchGoodsByName(const QString &name, GoodsOrder 
         break;
     }
     query.prepare(sql);
-    if(!query.exec()){
+    if (!query.exec()) {
         QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
     }
     QVector<Goods> goodsList;
@@ -392,7 +408,7 @@ QVector<Goods> DataInterface::searchGoodsByName(const QString &name, GoodsOrder 
         goods.status = query.value("Status").toInt();
         if (query.value("Image").isValid()) {
             goods.image = query.value("Image").toString();
-        }else{
+        } else {
             goods.image = "";
         }
         goods.shopId = query.value("ShopID").toUInt();
@@ -610,4 +626,45 @@ bool DataInterface::AdminRejectApply(ID_t applyId) {
     query.prepare("UPDATE SellerApply SET Status = 2 WHERE ApplyID = ?");
     query.addBindValue(applyId);
     return query.exec();
+}
+
+bool DataInterface::AddGoodsToCart(ID_t userId, ID_t goodsId, unsigned int quantity) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_AddGoodsToCart ?, ?, ?");
+    query.addBindValue(userId);
+    query.addBindValue(goodsId);
+    query.addBindValue(quantity);
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
+        return false;
+    } else {
+        return query.next();
+    }
+}
+
+bool DataInterface::AddGoodsToCollect(ID_t userId, ID_t goodsId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_AddGoodsToCollect ?, ?");
+    query.addBindValue(userId);
+    query.addBindValue(goodsId);
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
+        return false;
+    } else {
+        return query.next();
+    }
+}
+
+bool DataInterface::AddComment(ID_t userId, ID_t goodsId, const QString &content) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_AddComment ?, ?, ?");
+    query.addBindValue(goodsId);
+    query.addBindValue(userId);
+    query.addBindValue(content);
+    if(!query.exec()) {
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
+        return false;
+    } else {
+        return query.next();
+    }
 }

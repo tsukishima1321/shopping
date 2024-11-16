@@ -1,5 +1,6 @@
 #include "SearchWindow.h"
 #include "GlobalConfig.h"
+#include "GoodsDetailWindow.h"
 #include "ui_SearchWindow.h"
 #include <QMessageBox>
 
@@ -188,5 +189,6 @@ SearchWindow::~SearchWindow() {
 }
 
 void SearchWindow::openDetailMenu(ID_t id) {
-    /**/
+    GoodsDetailWindow *detailWindow = new GoodsDetailWindow(id);
+    detailWindow->show();
 }

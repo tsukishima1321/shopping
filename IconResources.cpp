@@ -23,6 +23,7 @@ IconResources::IconResources() {
     icons["new-address"] = QIcon(":/pic/icons/map-pin-plus.png");
 
     pixmaps["store"] = QPixmap(":/pic/icons/store.png");
+    pixmaps["default-goods"] = QPixmap(":/pic/images/empty-page.png");
 }
 
 

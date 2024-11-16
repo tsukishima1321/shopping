@@ -1,5 +1,6 @@
 #include "GoodsPreviewForm.h"
 #include "ui_GoodsPreviewForm.h"
+#include "Iconresources.h"
 #include <QPainter>
 
 GoodsPreviewForm::GoodsPreviewForm(QWidget *parent) :
@@ -13,7 +14,7 @@ GoodsPreviewForm::GoodsPreviewForm(QWidget *parent) :
     ui->labelDes->setAlignment(Qt::AlignTop);
     ui->labelText->setWordWrap(true);
     ui->labelText->setAlignment(Qt::AlignTop);
-    ui->labelImg->setPixmap(QPixmap(":/pic/images/empty-page.png").scaled(ui->labelImg->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    ui->labelImg->setPixmap(IconResources::getPixmaps()["default-goods"].scaled(ui->labelImg->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
 }
 
 GoodsPreviewForm::~GoodsPreviewForm() {

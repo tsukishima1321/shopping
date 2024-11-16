@@ -223,7 +223,7 @@ INNER JOIN Shop ON Goods.ShopID = Shop.ShopID;
 
 -- 用户评论视图
 CREATE VIEW CommentDetail AS
-SELECT Comment.CommentID, Comment.Content, Comment.CreateTime, Users.UserName
+SELECT Comment.CommentID, Comment.Content, Comment.CreateTime, Users.UserName, Comment.GoodsID
 FROM Comment
 INNER JOIN Users ON Comment.UserID = Users.UserID;
 
