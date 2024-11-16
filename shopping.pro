@@ -11,6 +11,8 @@ DEFINES -= QT_NO_DEBUG_OUTPUT
 
 CONFIG+=c++2a
 
+include     ($$PWD/pagenavigator/pagenavigator.pri)
+
 SOURCES += \
         main.cpp \
         DBInstance.cpp \
@@ -23,6 +25,7 @@ SOURCES += \
         ShopPreviewForm.cpp \
         UserRegistWindow.cpp \
         EditUserWindow.cpp \
+        SellerApplyWindow.cpp \
 
 HEADERS += \
         DBInstance.h \
@@ -35,6 +38,7 @@ HEADERS += \
         ShopPreviewForm.h \
         UserRegistWindow.h \
         EditUserWindow.h \
+        SellerApplyWindow.h \
 
 FORMS += \
         login.ui \
@@ -42,6 +46,7 @@ FORMS += \
         ShopPreviewForm.ui \
         UserRegistWindow.ui \
         EditUserWindow.ui \
+        SellerApplyWindow.ui \
 
 RESOURCES += \
     resource.qrc

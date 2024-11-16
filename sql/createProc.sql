@@ -234,7 +234,7 @@ END;
 -- 用户提交商家申请
 DROP PROCEDURE IF EXISTS sp_SellerApply;
 CREATE PROCEDURE sp_SellerApply
-    @UserID INT
+    @UserID INT,
     @Phone VARCHAR(20),
     @RealName VARCHAR(20),
     @IDCard VARCHAR(20)
@@ -244,7 +244,7 @@ BEGIN
     BEGIN
         RETURN;
     END
-    INSERT INTO SellerApply (UserID, Phone, RealName, IDCard, ApplyTime, Status)
+    INSERT INTO SellerApply (UserID, Phone, RealName, IDNumber, ApplyTime, Status)
     VALUES (@UserID, @Phone, @RealName, @IDCard, GETDATE(), 0);
     SELECT SCOPE_IDENTITY();
 END;

@@ -1,6 +1,7 @@
 #include "EditUserWindow.h"
 #include "CurrentUser.h"
 #include "Iconresources.h"
+#include "SellerApplyWindow.h"
 #include "ui_EditUserWindow.h"
 #include <QMessageBox>
 #include <QInputDialog>
@@ -63,6 +64,7 @@ EditUserWindow::EditUserWindow(QWidget *parent) :
     connect(ui->buttonSubmit, &QPushButton::clicked, this, &EditUserWindow::submitChanges);
     connect(ui->buttonCancel, &QPushButton::clicked, this, &EditUserWindow::cancelChanges);
     connect(ui->buttonNewAddress, &QToolButton::clicked, this, &EditUserWindow::newAddress);
+    connect(ui->buttonSellerApply, &QPushButton::clicked, this, &EditUserWindow::sellerApply);
 }
 
 void EditUserWindow::refreshAddressTable() {
@@ -125,4 +127,9 @@ void EditUserWindow::submitChanges() {
 void EditUserWindow::cancelChanges() {
     ui->lineEditName->setText(user.name);
     ui->lineEditPassword->setText("");
+}
+
+void EditUserWindow::sellerApply(){
+    SellerApplyWindow *sellerApplyWindow = new SellerApplyWindow();
+    sellerApplyWindow->show();
 }

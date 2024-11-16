@@ -67,6 +67,7 @@ BEGIN
     BEGIN
         INSERT INTO Seller (UserID, RealName, IDNumber, Phone)
         VALUES (@UserID, @RealName, @IDNumber, @Phone)
+        UPDATE Users SET IsSeller = 1 WHERE UserID = @UserID
     END
 END;
 

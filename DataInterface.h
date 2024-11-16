@@ -53,6 +53,7 @@ struct User {
     bool isSeller;
     QList<Address> addresses;
     Address* defaultAddress;
+    virtual ~User() = default;
 };
 
 struct Seller : public User {

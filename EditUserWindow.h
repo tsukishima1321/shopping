@@ -42,6 +42,7 @@ private:
     void refreshAddressTable();
     void submitChanges();
     void cancelChanges();
+    void sellerApply();
     User user;
     QVector<Address> addresses;
     Ui::EditUserWindow *ui;

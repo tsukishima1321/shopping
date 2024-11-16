@@ -3,6 +3,7 @@
 #include "DataInterface.h"
 #include "IconResources.h"
 #include "EditUserWindow.h"
+#include "SellerApplyWindow.h"
 #include "ui_UserMainWindow.h"
 
 UserMainWindow::UserMainWindow(QWidget *parent) :
@@ -52,6 +53,7 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
     connect(ui->buttonMyOrder, &QPushButton::clicked, this, &UserMainWindow::buttonMyOrderClicked);
     connect(ui->buttonMyCart, &QPushButton::clicked, this, &UserMainWindow::buttonMyCartClicked);
     connect(ui->buttonRefresh, &QToolButton::clicked, this, &UserMainWindow::buttonRefreshClicked);
+    connect(ui->buttonSellerRegist, &QPushButton::clicked, this, &UserMainWindow::buttonSellerApplyClicked);
 }
 
 void UserMainWindow::buttonRefreshClicked() {
@@ -130,6 +132,11 @@ void UserMainWindow::buttonMyCartClicked() {
     MyCartWindow *myCartWindow = new MyCartWindow();
     myCartWindow->show();
     */
+}
+
+void UserMainWindow::buttonSellerApplyClicked() {
+    SellerApplyWindow *sellerApplyWindow = new SellerApplyWindow();
+    sellerApplyWindow->show();
 }
 
 UserMainWindow::~UserMainWindow() {

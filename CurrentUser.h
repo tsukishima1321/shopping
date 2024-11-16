@@ -15,7 +15,6 @@ class CurrentUser {
         CurrentUser();
         static CurrentUser* instance;
         User* user;
-        Seller* seller;
         bool login;
         bool sellerLogin;
 };

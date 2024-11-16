@@ -1,15 +1,14 @@
 #include "CurrentUser.h"
 
-CurrentUser* CurrentUser::instance = nullptr;
+CurrentUser *CurrentUser::instance = nullptr;
 
 CurrentUser::CurrentUser() {
     login = false;
     sellerLogin = false;
     user = nullptr;
-    seller = nullptr;
 }
 
-CurrentUser* CurrentUser::getInstance() {
+CurrentUser *CurrentUser::getInstance() {
     if (instance == nullptr) {
         instance = new CurrentUser();
     }
@@ -25,24 +24,38 @@ bool CurrentUser::isSeller() const {
 }
 
 User CurrentUser::getUser() const {
-    if(login) return *user;
+    if (login)
+        return *user;
     return User();
 }
 
 void CurrentUser::setUser(User user) {
+    if (this->user) {
+        delete this->user;
+    }
     this->user = new User(user);
     login = true;
     sellerLogin = false;
 }
 
 Seller CurrentUser::getSeller() const {
-    if(sellerLogin) return *seller;
+    if (sellerLogin)
+        return *dynamic_cast<Seller * const>(user);
     return Seller();
 }
 
 void CurrentUser::setSeller(Seller seller) {
-    this->seller = new Seller(seller);
-    this->user = this->seller;
+    if (this->user) {
+        delete this->user;
+    }
+    this->user = new Seller(seller);
     login = true;
     sellerLogin = true;
+}
+
+CurrentUser::~CurrentUser() {
+    if (user) {
+        delete user;
+    }
+    instance = nullptr;
 }
