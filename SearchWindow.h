@@ -17,6 +17,7 @@ class SearchWindow : public QMainWindow {
 
 public:
     SearchWindow(QWidget *parent = nullptr);
+    SearchWindow(const QString &searchText, QWidget *parent = nullptr);
     ~SearchWindow();
 
 protected:

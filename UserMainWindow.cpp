@@ -78,10 +78,8 @@ void UserMainWindow::buttonSearchClicked() {
         QMessageBox::information(this, "提示", "你已被管理员禁止购物");
         return;
     }
-    /*
     SearchWindow *searchWindow = new SearchWindow(searchName);
     searchWindow->show();
-    */
 }
 
 void UserMainWindow::buttonStartShoppingClicked() {

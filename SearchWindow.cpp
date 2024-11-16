@@ -64,6 +64,11 @@ SearchWindow::SearchWindow(QWidget *parent) :
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &SearchWindow::buttonSearchClicked);
 }
 
+SearchWindow::SearchWindow(const QString &searchText, QWidget *parent) : SearchWindow(parent) {
+    ui->lineEdit->setText(searchText);
+    buttonSearchClicked();
+}
+
 void SearchWindow::buttonSearchClicked() {
     GoodsOrder order;
     switch (ui->comboBoxOrder->currentIndex()) {
