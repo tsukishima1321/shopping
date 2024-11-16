@@ -379,7 +379,9 @@ QVector<Goods> DataInterface::searchGoodsByName(const QString &name, GoodsOrder 
         break;
     }
     query.prepare(sql);
-    query.exec();
+    if(!query.exec()){
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
+    }
     QVector<Goods> goodsList;
     while (query.next()) {
         Goods goods;
@@ -510,7 +512,7 @@ std::optional<ID_t> DataInterface::UpdateUser(const User &user) {
     return std::nullopt;
 }
 
-bool DataInterface::setUserPermissionByUserId(ID_t id, const UserPermission &permission){
+bool DataInterface::setUserPermissionByUserId(ID_t id, const UserPermission &permission) {
     QSqlQuery query(DBInstance::getInstance());
     query.prepare("UPDATE UserPermission SET AllowLogin = ?, AllowShopping = ?, AllowComment = ?, AllowAddShop = ?, AllowAddGoods = ?, AllowHandleOrder = ? WHERE UserID = ?");
     query.addBindValue(permission.allowLogin);

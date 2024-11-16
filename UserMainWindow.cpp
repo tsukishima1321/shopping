@@ -4,6 +4,7 @@
 #include "IconResources.h"
 #include "EditUserWindow.h"
 #include "SellerApplyWindow.h"
+#include "SearchWindow.h"
 #include "ui_UserMainWindow.h"
 #include <QMessageBox>
 
@@ -89,10 +90,8 @@ void UserMainWindow::buttonStartShoppingClicked() {
         QMessageBox::information(this, "提示", "你已被管理员禁止购物");
         return;
     }
-    /*
-    SearchWindow *SearchWindow = new SearchWindow();
+    SearchWindow *searchWindow = new SearchWindow();
     searchWindow->show();
-    */
 }
 
 void UserMainWindow::buttonAddShopClicked() {

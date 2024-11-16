@@ -12,6 +12,7 @@ DEFINES -= QT_NO_DEBUG_OUTPUT
 CONFIG+=c++2a
 
 include     ($$PWD/pagenavigator/pagenavigator.pri)
+include     ($$PWD/xcombobox/xcombobox.pri)
 
 SOURCES += \
         main.cpp \
@@ -28,6 +29,8 @@ SOURCES += \
         SellerApplyWindow.cpp \
         AdminMainWindow.cpp \
         EditUserPermission.cpp \
+        SearchWindow.cpp \
+        GoodsPreviewForm.cpp \
 
 HEADERS += \
         DBInstance.h \
@@ -43,6 +46,8 @@ HEADERS += \
         SellerApplyWindow.h \
         AdminMainWindow.h \
         EditUserPermission.h \
+        SearchWindow.h \
+        GoodsPreviewForm.h \
 
 FORMS += \
         login.ui \
@@ -53,6 +58,8 @@ FORMS += \
         SellerApplyWindow.ui \
         AdminMainWindow.ui \
         EditUserPermission.ui \
+        SearchWindow.ui \
+        GoodsPreviewForm.ui \
 
 RESOURCES += \
     resource.qrc
