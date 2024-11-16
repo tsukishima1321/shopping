@@ -120,8 +120,10 @@ GoodsPreviewForm *SearchWindow::addGoodsItem(QString image, QString name, QStrin
     }
     if (formToAdd) {
         formToAdd->setId(id);
-        QString imagePath = GlobalConfig::getInstance()->getStaticPath() + image;
-        formToAdd->setImage(QPixmap(imagePath));
+        if(!image.isEmpty()) {
+            QString imagePath = GlobalConfig::getInstance()->getStaticPath() + image;
+            formToAdd->setImage(QPixmap(imagePath));
+        }
         formToAdd->setText(name, price, des);
     }
     return formToAdd;

@@ -392,6 +392,8 @@ QVector<Goods> DataInterface::searchGoodsByName(const QString &name, GoodsOrder 
         goods.status = query.value("Status").toInt();
         if (query.value("Image").isValid()) {
             goods.image = query.value("Image").toString();
+        }else{
+            goods.image = "";
         }
         goods.shopId = query.value("ShopID").toUInt();
         goods.shopName = query.value("ShopName").toString();

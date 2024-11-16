@@ -13,7 +13,7 @@ GoodsPreviewForm::GoodsPreviewForm(QWidget *parent) :
     ui->labelDes->setAlignment(Qt::AlignTop);
     ui->labelText->setWordWrap(true);
     ui->labelText->setAlignment(Qt::AlignTop);
-    ui->labelImg->setPixmap(QPixmap(":/images/empty-page.png"));
+    ui->labelImg->setPixmap(QPixmap(":/pic/images/empty-page.png").scaled(ui->labelImg->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
 }
 
 GoodsPreviewForm::~GoodsPreviewForm() {
@@ -21,7 +21,8 @@ GoodsPreviewForm::~GoodsPreviewForm() {
 }
 
 void GoodsPreviewForm::setImage(const QPixmap &image) {
-    ui->labelImg->setPixmap(image);
+    QPixmap pixmap = image.scaled(ui->labelImg->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+    ui->labelImg->setPixmap(pixmap);
 }
 
 void GoodsPreviewForm::hideElements() {
