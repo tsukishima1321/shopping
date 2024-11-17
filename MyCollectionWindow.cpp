@@ -8,7 +8,7 @@
 
 MyCollectionWindow::MyCollectionWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MyCollectionWindow),
-        currentColumnCount(3) {
+        currentColumnCount(2) {
     ui->setupUi(this);
 
     hBoxLayout = new QHBoxLayout;

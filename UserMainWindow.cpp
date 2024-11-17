@@ -8,6 +8,7 @@
 #include "MyOrderWindow.h"
 #include "SearchWindow.h"
 #include "SellerApplyWindow.h"
+#include "ShopEditWindow.h"
 #include "ui_UserMainWindow.h"
 #include <QMessageBox>
 
@@ -50,11 +51,13 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
     ui->buttonSearch->setIcon(IconResources::getIcons()["search"]);
     ui->buttonRefresh->setIcon(IconResources::getIcons()["refresh"]);
 
+    MyCollectionWindow *myCollectionWindow = new MyCollectionWindow();
+    ui->verticalLayout_7->addWidget(myCollectionWindow);
+
     connect(ui->buttonSearch, &QPushButton::clicked, this, &UserMainWindow::buttonSearchClicked);
     connect(ui->buttonStartShopping, &QPushButton::clicked, this, &UserMainWindow::buttonStartShoppingClicked);
     connect(ui->buttonAddShop, &QPushButton::clicked, this, &UserMainWindow::buttonAddShopClicked);
     connect(ui->buttonEditUser, &QPushButton::clicked, this, &UserMainWindow::buttonEditUserClicked);
-    connect(ui->buttonMyCollect, &QPushButton::clicked, this, &UserMainWindow::buttonMyCollectionClicked);
     connect(ui->buttonMyOrder, &QPushButton::clicked, this, &UserMainWindow::buttonMyOrderClicked);
     connect(ui->buttonMyCart, &QPushButton::clicked, this, &UserMainWindow::buttonMyCartClicked);
     connect(ui->buttonRefresh, &QToolButton::clicked, this, &UserMainWindow::buttonRefreshClicked);
@@ -101,6 +104,8 @@ void UserMainWindow::buttonAddShopClicked() {
         QMessageBox::information(this, "提示", "你已被管理员禁止新建店铺");
         return;
     }
+    ShopEditWindow* shopEditWindow = new ShopEditWindow();
+    shopEditWindow->show();
 }
 
 void UserMainWindow::buttonEditUserClicked() {
@@ -126,11 +131,6 @@ void UserMainWindow::refreshUser() {
         ui->labelSellerIDNumber->setText(CurrentUser::getInstance()->getSeller().realIdentityNumber);
         ui->labelSellerIDNumber->adjustSize();
     }
-}
-
-void UserMainWindow::buttonMyCollectionClicked() {
-    MyCollectionWindow *myCollectionWindow = new MyCollectionWindow();
-    myCollectionWindow->show();
 }
 
 void UserMainWindow::buttonMyOrderClicked() {

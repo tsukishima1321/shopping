@@ -18,7 +18,6 @@ private:
     void buttonStartShoppingClicked();
     void buttonAddShopClicked();
     void buttonEditUserClicked();
-    void buttonMyCollectionClicked();
     void buttonMyOrderClicked();
     void buttonMyCartClicked();
     void buttonRefreshClicked();
