@@ -21,6 +21,8 @@ ShopEditWindow::ShopEditWindow(QWidget *parent) :
     ui->buttonActive->setEnabled(false);
     ui->buttonDeactive->setEnabled(false);
     ui->buttonNew->setEnabled(false);
+    ui->checkBoxSelectAll->setEnabled(false);
+    ui->buttonDeleteShop->setEnabled(false);
 
     connect(ui->checkBoxSelectAll, &QCheckBox::stateChanged, [this](int state) {
         for (auto &&form : previewList) {
@@ -53,6 +55,18 @@ ShopEditWindow::ShopEditWindow(QWidget *parent) :
 
     connect(ui->buttonSubmit, &QPushButton::clicked, this, &ShopEditWindow::submit);
     connect(ui->buttonCancel, &QPushButton::clicked, this, &ShopEditWindow::cancel);
+
+    connect(ui->buttonDeleteShop, &QPushButton::clicked, [this]() {
+        QMessageBox::StandardButton button = QMessageBox::question(this, "警告", "确定要删除店铺吗？删除后本店铺中添加的所有商品将下架", QMessageBox::Yes | QMessageBox::No);
+        if (button == QMessageBox::Yes) {
+            if (DataInterface::CloseShop(shop.id)) {
+                QMessageBox::information(this, "成功", "删除店铺成功");
+                close();
+            } else {
+                QMessageBox::warning(this, "错误", "删除店铺失败");
+            }
+        }
+    });
 }
 
 void ShopEditWindow::updateGoods() {
@@ -84,6 +98,8 @@ void ShopEditWindow::setShopId(ID_t shopId) {
     ui->buttonActive->setEnabled(true);
     ui->buttonDeactive->setEnabled(true);
     ui->buttonNew->setEnabled(true);
+    ui->checkBoxSelectAll->setEnabled(true);
+    ui->buttonDeleteShop->setEnabled(true);
     updateGoods();
 }
 
@@ -106,6 +122,8 @@ void ShopEditWindow::submit() {
             ui->buttonActive->setEnabled(true);
             ui->buttonDeactive->setEnabled(true);
             ui->buttonNew->setEnabled(true);
+            ui->checkBoxSelectAll->setEnabled(true);
+            ui->buttonDeleteShop->setEnabled(true);
         }
     } else {
         if (!DataInterface::UpdateShop(shop)) {
@@ -205,7 +223,7 @@ void ShopEditWindow::openDetailMenu(ID_t id) {
 
 void ShopEditWindow::newGoods() {
     UserPermission permission = DataInterface::getUserPermissionByUserId(shop.sellerId);
-    if(!permission.allowAddGoods){
+    if (!permission.allowAddGoods) {
         QMessageBox::warning(this, "错误", "你已被管理员禁止添加商品");
     }
     GoodsEditWindow *detailWindow = new GoodsEditWindow();

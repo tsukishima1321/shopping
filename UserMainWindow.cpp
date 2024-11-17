@@ -37,9 +37,11 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
         ui->buttonSellerRegist->hide();
         QVector<Shop> shops = DataInterface::getShopsBySellerId(CurrentUser::getInstance()->getSeller().id);
         for (auto &shop : shops) {
-            ShopPreviewForm *shopPreviewForm = new ShopPreviewForm;
-            shopPreviewForm->setShop(shop);
-            vBoxLayout->addWidget(shopPreviewForm);
+            if (shop.status != 1) {
+                ShopPreviewForm *shopPreviewForm = new ShopPreviewForm;
+                shopPreviewForm->setShop(shop);
+                vBoxLayout->addWidget(shopPreviewForm);
+            }
         }
     } else {
         ui->buttonHandleOrder->hide();
@@ -74,9 +76,11 @@ void UserMainWindow::buttonRefreshClicked() {
     }
     QVector<Shop> shops = DataInterface::getShopsBySellerId(CurrentUser::getInstance()->getSeller().id);
     for (auto &shop : shops) {
-        ShopPreviewForm *shopPreviewForm = new ShopPreviewForm;
-        shopPreviewForm->setShop(shop);
-        vBoxLayout->addWidget(shopPreviewForm);
+        if (shop.status != 1) {
+            ShopPreviewForm *shopPreviewForm = new ShopPreviewForm;
+            shopPreviewForm->setShop(shop);
+            vBoxLayout->addWidget(shopPreviewForm);
+        }
     }
 }
 

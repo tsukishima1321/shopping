@@ -74,3 +74,18 @@ BEGIN
     END
 END;
 
+-- 店铺被关闭时，自动下架所有商品
+DROP TRIGGER IF EXISTS tr_ShopClose;
+CREATE TRIGGER tr_ShopClose ON Shop FOR UPDATE
+AS
+BEGIN
+    DECLARE @ShopID INT
+    DECLARE @Status INT
+    SELECT @ShopID = ShopID, @Status = Status FROM inserted
+    IF @Status = 1
+    BEGIN
+        UPDATE Goods
+        SET Status = 1
+        WHERE ShopID = @ShopID
+    END
+END;

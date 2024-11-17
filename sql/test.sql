@@ -13,7 +13,7 @@ VALUES (1, 1, 1),
        (1, 4, 3);
 
 -- 用户将购物车提交为订单
-EXEC sp_SubmitOrder 1;
+EXEC sp_SubmitOrder 1,1;
 
 -- 商家处理订单
 -- 从储存过程中获取订单ID

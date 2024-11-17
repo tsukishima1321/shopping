@@ -60,6 +60,18 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="buttonSubmit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="text">
            <string>提交修改</string>
           </property>
@@ -67,8 +79,40 @@
         </item>
         <item>
          <widget class="QPushButton" name="buttonCancel">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>40</height>
+           </size>
+          </property>
           <property name="text">
            <string>取消修改</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="buttonDeleteShop">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>关闭本店铺</string>
           </property>
          </widget>
         </item>
@@ -139,7 +183,7 @@
          <x>0</x>
          <y>0</y>
          <width>968</width>
-         <height>402</height>
+         <height>385</height>
         </rect>
        </property>
       </widget>
