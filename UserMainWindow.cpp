@@ -6,6 +6,7 @@
 #include "SellerApplyWindow.h"
 #include "SearchWindow.h"
 #include "MyCollectionWindow.h"
+#include "MyCartWindow.h"
 #include "ui_UserMainWindow.h"
 #include <QMessageBox>
 
@@ -139,10 +140,8 @@ void UserMainWindow::buttonMyOrderClicked() {
 }
 
 void UserMainWindow::buttonMyCartClicked() {
-    /*
     MyCartWindow *myCartWindow = new MyCartWindow();
     myCartWindow->show();
-    */
 }
 
 void UserMainWindow::buttonSellerApplyClicked() {

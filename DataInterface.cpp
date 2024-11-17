@@ -113,7 +113,7 @@ QVector<Goods> DataInterface::AdminGetAllGoods() {
         good.id = query.value("GoodsID").toUInt();
         good.name = query.value("GoodsName").toString();
         good.description = query.value("Description").toString();
-        good.price = query.value("Price").toDouble();
+        good.price = Price(query.value("Price").toDouble());
         good.status = query.value("Status").toInt();
         if (query.value("Image").isValid()) {
             good.image = query.value("Image").toString();
@@ -228,7 +228,7 @@ Goods DataInterface::getGoodsById(ID_t id) {
         goods.id = query.value("GoodsID").toUInt();
         goods.name = query.value("GoodsName").toString();
         goods.description = query.value("Description").toString();
-        goods.price = query.value("Price").toDouble();
+        goods.price = Price(query.value("Price").toDouble());
         goods.status = query.value("Status").toInt();
         if (query.value("Image").isValid()) {
             goods.image = query.value("Image").toString();
@@ -341,8 +341,7 @@ QVector<GoodsWithQuantity> DataInterface::getGoodsInUserCart(ID_t UserId) {
         ID_t goodsId = query.value("GoodsID").toUInt();
         goodsWithQuantity.goods.id = goodsId;
         goodsWithQuantity.goods.name = query.value("GoodsName").toString();
-        goodsWithQuantity.goods.description = query.value("Description").toString();
-        goodsWithQuantity.goods.price = query.value("Price").toDouble();
+        goodsWithQuantity.goods.price = Price(query.value("Price").toDouble());
         goodsWithQuantity.goods.status = query.value("Status").toInt();
         if (query.value("Image").isValid()) {
             goodsWithQuantity.goods.image = query.value("Image").toString();
@@ -368,7 +367,7 @@ QVector<GoodsWithQuantity> DataInterface::getGoodsInOrder(ID_t OrderId) {
         goodsWithQuantity.goods.id = goodsId;
         goodsWithQuantity.goods.name = query.value("GoodsName").toString();
         goodsWithQuantity.goods.description = query.value("Description").toString();
-        goodsWithQuantity.goods.price = query.value("Price").toDouble();
+        goodsWithQuantity.goods.price = Price(query.value("Price").toDouble());
         goodsWithQuantity.goods.status = query.value("Status").toInt();
         if (query.value("Image").isValid()) {
             goodsWithQuantity.goods.image = query.value("Image").toString();
@@ -417,7 +416,7 @@ QVector<Goods> DataInterface::searchGoodsByName(const QString &name, GoodsOrder 
         goods.id = query.value("GoodsID").toUInt();
         goods.name = query.value("GoodsName").toString();
         goods.description = query.value("Description").toString();
-        goods.price = query.value("Price").toDouble();
+        goods.price = Price(query.value("Price").toDouble());
         goods.status = query.value("Status").toInt();
         if (query.value("Image").isValid()) {
             goods.image = query.value("Image").toString();
@@ -655,6 +654,15 @@ bool DataInterface::AddGoodsToCart(ID_t userId, ID_t goodsId, unsigned int quant
     }
 }
 
+bool DataInterface::UpdateGoodsQuantityInCart(ID_t userId, ID_t goodsId, unsigned int quantity) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("UPDATE CartGoods SET Quantity = ? WHERE UserID = ? AND GoodsID = ?");
+    query.addBindValue(quantity);
+    query.addBindValue(userId);
+    query.addBindValue(goodsId);
+    return query.exec();
+}
+
 bool DataInterface::AddGoodsToCollect(ID_t userId, ID_t goodsId) {
     QSqlQuery query(DBInstance::getInstance());
     query.prepare("EXEC sp_AddGoodsToCollect ?, ?");
@@ -676,13 +684,21 @@ bool DataInterface::RemoveGoodsFromCollect(ID_t userId, ID_t goodsId) {
     return query.exec();
 }
 
+bool DataInterface::RemoveGoodsFromCart(ID_t userId, ID_t goodsId){
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("DELETE FROM CartGoods WHERE UserID = ? AND GoodsID = ?");
+    query.addBindValue(userId);
+    query.addBindValue(goodsId);
+    return query.exec();
+}
+
 bool DataInterface::AddComment(ID_t userId, ID_t goodsId, const QString &content) {
     QSqlQuery query(DBInstance::getInstance());
     query.prepare("EXEC sp_AddComment ?, ?, ?");
     query.addBindValue(goodsId);
     query.addBindValue(userId);
     query.addBindValue(content);
-    if(!query.exec()) {
+    if (!query.exec()) {
         QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
         return false;
     } else {

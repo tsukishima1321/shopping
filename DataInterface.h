@@ -1,40 +1,43 @@
 #pragma once
+#include <QDateTime>
 #include <QList>
 #include <QMap>
+#include <QSqlDatabase>
 #include <QString>
 #include <QVector>
-#include <QSqlDatabase>
-#include <QDateTime>
 #include <optional>
 
 using ID_t = unsigned int;
 
 class Price {
 public:
-    explicit Price(unsigned int price = 0.0) : price(price){}
-    Price(const Price &price) : price(price.price){}
-    Price& operator=(const Price &price){
+    explicit Price(unsigned int price = 0.0) :
+            price(price) {}
+    Price(const Price &price) :
+            price(price.price) {}
+    Price &operator=(const Price &price) {
         this->price = price.price;
         return *this;
     }
-    Price(double price){
+    explicit Price(double price) {
         this->price = price * 100;
     }
     Price operator+(const Price &price) const {
-        return this->price + price.price;
+        return Price(this->price + price.price);
     }
     Price operator-(const Price &price) const {
-        return this->price - price.price;
+        return Price(this->price - price.price);
     }
     Price operator*(unsigned int x) const {
-        return this->price * x;
+        return Price(this->price * x);
     }
-    operator double() const {
+    explicit operator double() const {
         return price / 100.0;
     }
     QString toString() const {
         return QString::number(price / 100) + "." + QString::number(price % 100);
     }
+
 private:
     unsigned int price;
 };
@@ -52,11 +55,11 @@ struct User {
     QString password;
     bool isSeller;
     QList<Address> addresses;
-    Address* defaultAddress;
+    Address *defaultAddress;
     virtual ~User() = default;
 };
 
-struct UserWithTime{
+struct UserWithTime {
     User user;
     QDateTime registerTime;
     QDateTime lastLoginTime;
@@ -68,7 +71,7 @@ struct Seller : public User {
     QString realName;
 };
 
-struct Shop{
+struct Shop {
     ID_t id;
     QString name;
     QString description;
@@ -125,25 +128,25 @@ struct Comment {
     QDateTime time;
 };
 
-enum GoodsOrder{
+enum GoodsOrder {
     GoodsPriceAscending,
     GoodsPriceDescending,
     GoodsNameAscending,
     GoodsNameDescending
 };
 
-enum ShopOrder{
+enum ShopOrder {
     ShopNameAscending,
     ShopNameDescending
 };
 
-enum SellerApplySubmitStatus{
+enum SellerApplySubmitStatus {
     Success,
     AlreadyApplied,
     DBError
 };
 
-namespace DataInterface{
+namespace DataInterface {
 
     void reFreshCurrentUserInfo();
 
@@ -195,7 +198,9 @@ namespace DataInterface{
     bool AddGoodsToCart(ID_t userId, ID_t goodsId, unsigned int quantity);
     bool AddGoodsToCollect(ID_t userId, ID_t goodsId);
     bool RemoveGoodsFromCollect(ID_t userId, ID_t goodsId);
+    bool RemoveGoodsFromCart(ID_t userId, ID_t goodsId);
 
-    bool AddComment(ID_t userId, ID_t goodsId, const QString& content);
+    bool UpdateGoodsQuantityInCart(ID_t userId, ID_t goodsId, unsigned int quantity);
+
+    bool AddComment(ID_t userId, ID_t goodsId, const QString &content);
 }
-

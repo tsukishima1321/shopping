@@ -311,10 +311,20 @@ CREATE PROCEDURE sp_AddGoodsToCart
     @Quantity INT
 AS
 BEGIN
-    INSERT INTO CartGoods (UserID, GoodsID, Quantity)
-    VALUES (@UserID, @GoodsID, @Quantity);
-    SELECT SCOPE_IDENTITY();
-END;
+    IF EXISTS (SELECT * FROM CartGoods WHERE UserID = @UserID AND GoodsID = @GoodsID)
+    BEGIN
+        UPDATE CartGoods
+        SET Quantity = Quantity + @Quantity
+        WHERE UserID = @UserID AND GoodsID = @GoodsID;
+        SELECT CartID FROM CartGoods WHERE UserID = @UserID AND GoodsID = @GoodsID;
+    END
+    ELSE
+    BEGIN
+        INSERT INTO CartGoods (UserID, GoodsID, Quantity)
+        VALUES (@UserID, @GoodsID, @Quantity);
+        SELECT SCOPE_IDENTITY();
+    END
+END
 
 -- 用户将商品加入收藏
 DROP PROCEDURE IF EXISTS sp_AddGoodsToCollect;

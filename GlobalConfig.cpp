@@ -22,7 +22,7 @@ GlobalConfig::GlobalConfig() {
         setting.setValue("database/port", "1433");
         setting.setValue("database/user", "sa");
         setting.setValue("database/password", "343542");
-        setting.setValue("database/database", "shoping");
+        setting.setValue("database/database", "shopping");
     }
     QSettings setting("config.ini", QSettings::IniFormat);
     staticPath = setting.value("resource/staticPath").toString();
