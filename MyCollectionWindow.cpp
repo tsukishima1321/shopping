@@ -139,6 +139,9 @@ void MyCollectionWindow::openDetailMenu(ID_t id) {
 }
 
 MyCollectionWindow::~MyCollectionWindow() {
+    for (GoodsPreviewForm *form : previewList) {
+        delete form;
+    }
     if (hBoxLayout) {
         delete hBoxLayout;
     }

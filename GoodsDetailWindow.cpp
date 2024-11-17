@@ -4,6 +4,7 @@
 #include "DataInterface.h"
 #include "GlobalConfig.h"
 #include "Iconresources.h"
+#include "ShopDetailWindow.h"
 #include "ui_GoodsDetailWindow.h"
 #include <QDialog>
 #include <QDialogButtonBox>
@@ -101,10 +102,8 @@ void GoodsDetailWindow::addGoodsToCollect() {
 }
 
 void GoodsDetailWindow::openShop() {
-    /*
     ShopDetailWindow *shopDetailWindow = new ShopDetailWindow(goods.shopId);
     shopDetailWindow->show();
-    */
 }
 
 GoodsDetailWindow::~GoodsDetailWindow() {
