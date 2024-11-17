@@ -124,6 +124,16 @@ struct Comment {
     QDateTime time;
 };
 
+struct Order{
+    ID_t orderId;
+    ID_t shopId;
+    ID_t userId;
+    QString shopName;
+    int status;
+    QDateTime time;
+    QVector<GoodsWithQuantity> goods;
+};
+
 enum GoodsOrder {
     GoodsPriceAscending,
     GoodsPriceDescending,

@@ -36,6 +36,9 @@ namespace DataInterface {
     QVector<GoodsWithQuantity> getGoodsInUserCart(ID_t userId);
     QVector<GoodsWithQuantity> getGoodsInOrder(ID_t orderId);
 
+    QVector<Order> getOrdersByUserId(ID_t userId);
+    QVector<Order> getOrdersBySellerId(ID_t sellerId);
+
     std::optional<ID_t> UserLogin(const QString &name, const QString &password);
     std::optional<ID_t> AdminLogin(const QString &name, const QString &password);
 

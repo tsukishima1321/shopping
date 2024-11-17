@@ -47,6 +47,11 @@ void GoodsWithQuantityForm::setGoods(const Goods &goods, int quantity) {
     }
 }
 
+void GoodsWithQuantityForm::setReadOnly(bool readOnly) {
+    ui->spinBox->setEnabled(!readOnly);
+    ui->buttonDelete->setHidden(readOnly);
+}
+
 ID_t GoodsWithQuantityForm::getId() const {
     return id;
 }

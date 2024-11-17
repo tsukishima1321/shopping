@@ -17,6 +17,7 @@ signals:
 
 public:
     void setGoods(const Goods &goods, int quantity);
+    void setReadOnly(bool readOnly);
     ID_t getId() const;
     bool isActive();
     int getQuantity();

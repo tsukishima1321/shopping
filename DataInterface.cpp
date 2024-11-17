@@ -381,6 +381,63 @@ QVector<GoodsWithQuantity> DataInterface::getGoodsInOrder(ID_t OrderId) {
     return goodsList;
 }
 
+QVector<Order> DataInterface::getOrdersByUserId(ID_t userId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("SELECT * FROM OrderDetail WHERE UserID = ?");
+    query.addBindValue(userId);
+    query.exec();
+    QVector<Order> orderList;
+    while (query.next()) {
+        Order order;
+        order.orderId = query.value("OrderID").toUInt();
+        order.shopId = query.value("ShopID").toUInt();
+        order.time = query.value("CreateTime").toDateTime();
+        order.userId = query.value("UserID").toUInt();
+        order.shopName = query.value("ShopName").toString();
+        order.status = query.value("Status").toInt();
+        orderList.append(order);
+    }
+    query.finish();
+    for (Order &order : orderList) {
+        order.goods = getGoodsInOrder(order.orderId);
+    }
+    return orderList;
+}
+
+QVector<Order> DataInterface::getOrdersBySellerId(ID_t sellerId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_QueryOrder ?");
+    query.addBindValue(sellerId);
+    query.exec();
+    QVector<ID_t> orderIds;
+    while (query.next()) {
+        orderIds.append(query.value("OrderID").toUInt());
+    }
+    query.finish();
+
+    QVector<Order> orderList;
+    for (ID_t orderId : orderIds) {
+        Order order;
+        order.orderId = orderId;
+        QSqlQuery query2(DBInstance::getInstance());
+        query2.prepare("SELECT * FROM OrderDetail WHERE OrderID = ?");
+        query2.addBindValue(orderId);
+        query2.exec();
+        if (query2.next()) {
+            order.time = query2.value("CreateTime").toDateTime();
+            order.shopId = query2.value("ShopID").toUInt();
+            order.userId = query2.value("UserID").toUInt();
+            order.shopName = query2.value("ShopName").toString();
+            order.status = query2.value("Status").toInt();
+            orderList.append(order);
+        }
+    }
+    for (Order &order : orderList) {
+        order.goods = getGoodsInOrder(order.orderId);
+    }
+    return orderList;
+}
+
 QVector<Goods> DataInterface::searchGoodsByName(const QString &name, GoodsOrder order, bool searchName, bool searchDescription) {
     QSqlQuery query(DBInstance::getInstance());
     QString sql = "SELECT * FROM GoodsDetail WHERE ";

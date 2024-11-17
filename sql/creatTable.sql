@@ -202,10 +202,12 @@ INNER JOIN Seller ON Shop.SellerID = Seller.UserID
 INNER JOIN Users ON Seller.UserID = Users.UserID;
 
 -- 订单详情视图
+DROP VIEW IF EXISTS OrderDetail;
 CREATE VIEW OrderDetail AS
-SELECT Orders.OrderID, Orders.Status, Orders.TotalPrice, Orders.CreateTime, Users.UserID, Users.UserName
+SELECT Orders.OrderID, Orders.Status, Orders.TotalPrice, Orders.CreateTime, Users.UserID, Users.UserName, Orders.shopID, Shop.ShopName
 FROM Orders
-INNER JOIN Users ON Orders.UserID = Users.UserID;
+INNER JOIN Users ON Orders.UserID = Users.UserID
+INNER JOIN Shop ON Orders.ShopID = Shop.ShopID;
 
 -- 订单商品详情视图
 CREATE VIEW OrderGoodsDetail AS

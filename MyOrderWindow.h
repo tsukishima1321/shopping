@@ -16,4 +16,6 @@ public:
 
 private:
     Ui::MyOrderWindow *ui;
+    QVector<Order> orders;
+    void updateOrderView();
 };
