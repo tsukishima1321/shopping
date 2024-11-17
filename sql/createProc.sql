@@ -316,7 +316,7 @@ BEGIN
         UPDATE CartGoods
         SET Quantity = Quantity + @Quantity
         WHERE UserID = @UserID AND GoodsID = @GoodsID;
-        SELECT CartID FROM CartGoods WHERE UserID = @UserID AND GoodsID = @GoodsID;
+        SELECT UserID FROM CartGoods WHERE UserID = @UserID AND GoodsID = @GoodsID;
     END
     ELSE
     BEGIN

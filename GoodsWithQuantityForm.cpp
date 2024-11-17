@@ -2,9 +2,11 @@
 #include "GlobalConfig.h"
 #include "IconResources.h"
 #include "ui_GoodsWithQuantityForm.h"
+#include <QGraphicsDropShadowEffect>
 
 GoodsWithQuantityForm::GoodsWithQuantityForm(QWidget *parent) :
         QWidget(parent), ui(new Ui::GoodsWithQuantityForm) {
+    active = true;
     ui->setupUi(this);
     ui->labelImage->setPixmap(IconResources::getPixmaps()["default-goods"].scaled(ui->labelImage->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     ui->buttonDelete->setIcon(IconResources::getIcons()["trash"]);
@@ -32,6 +34,16 @@ void GoodsWithQuantityForm::setGoods(const Goods &goods, int quantity) {
     id = goods.id;
     price = goods.price;
     ui->labelTotalPrice->setText((price * quantity).toString());
+    if (goods.status == 1) {
+        active = false;
+        ui->labelGoodsName->setText("商品已下架");
+        QGraphicsDropShadowEffect *effect = new QGraphicsDropShadowEffect();
+        effect->setBlurRadius(10);
+        effect->setColor(QColor(255, 0, 0, 255));
+        effect->setOffset(0, 0);
+        this->setGraphicsEffect(effect);
+        ui->spinBox->setEnabled(false);
+    }
 }
 
 ID_t GoodsWithQuantityForm::getId() const {
@@ -43,7 +55,7 @@ int GoodsWithQuantityForm::getQuantity() {
 }
 
 void GoodsWithQuantityForm::mouseDoubleClickEvent(QMouseEvent *event) {
-    (void) event;
+    (void)event;
     emit isClicked(id);
 }
 

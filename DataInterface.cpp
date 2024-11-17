@@ -412,6 +412,9 @@ QVector<Goods> DataInterface::searchGoodsByName(const QString &name, GoodsOrder 
     }
     QVector<Goods> goodsList;
     while (query.next()) {
+        if (query.value("Status").toInt() == 1 || query.value("ShopStatus").toInt() == 1) {
+            continue;
+        }
         Goods goods;
         goods.id = query.value("GoodsID").toUInt();
         goods.name = query.value("GoodsName").toString();
@@ -684,7 +687,7 @@ bool DataInterface::RemoveGoodsFromCollect(ID_t userId, ID_t goodsId) {
     return query.exec();
 }
 
-bool DataInterface::RemoveGoodsFromCart(ID_t userId, ID_t goodsId){
+bool DataInterface::RemoveGoodsFromCart(ID_t userId, ID_t goodsId) {
     QSqlQuery query(DBInstance::getInstance());
     query.prepare("DELETE FROM CartGoods WHERE UserID = ? AND GoodsID = ?");
     query.addBindValue(userId);

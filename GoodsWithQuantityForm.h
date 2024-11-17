@@ -17,6 +17,7 @@ signals:
 public:
     void setGoods(const Goods &goods, int quantity);
     ID_t getId() const;
+    bool isActive();
     int getQuantity();
     GoodsWithQuantityForm(QWidget *parent = nullptr);
     ~GoodsWithQuantityForm();
@@ -25,6 +26,7 @@ private:
     Ui::GoodsWithQuantityForm *ui;
     ID_t id;
     Price price;
+    bool active;
 protected:
     virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
 

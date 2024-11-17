@@ -55,6 +55,9 @@ void MyCartWindow::updateGoods() {
 void MyCartWindow::updateTotalPrice() {
     Price totalPrice = Price();
     for (auto &goods : goodsList) {
+        if(goods.goods.status == 1) {
+            continue;
+        }
         totalPrice = totalPrice + goods.totalPrice;
     }
     ui->labelTotalPrice->setText(totalPrice.toString());
