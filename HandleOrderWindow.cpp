@@ -27,6 +27,7 @@ HandleOrderWindow::HandleOrderWindow(QWidget *parent) :
             }else{
                 DataInterface::UpdateOrderStatus(orderId, 2);
             }
+            loadOrders();
         }
     });
     loadOrders();
