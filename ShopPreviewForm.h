@@ -1,5 +1,5 @@
 #pragma once
-#include "DataInterface.h"
+#include "Types.h"
 #include <QWidget>
 
 namespace Ui {

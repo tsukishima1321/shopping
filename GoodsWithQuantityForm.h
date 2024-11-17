@@ -1,12 +1,13 @@
 #pragma once
 
+#include "Types.h"
 #include <QWidget>
-#include "DataInterface.h"
 
-namespace Ui { class GoodsWithQuantityForm; }
+namespace Ui {
+    class GoodsWithQuantityForm;
+}
 
-class GoodsWithQuantityForm : public QWidget
-{
+class GoodsWithQuantityForm : public QWidget {
     Q_OBJECT
 
 signals:
@@ -27,7 +28,7 @@ private:
     ID_t id;
     Price price;
     bool active;
+
 protected:
     virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
-
 };

@@ -1,12 +1,13 @@
 #include "UserMainWindow.h"
 #include "CurrentUser.h"
 #include "DataInterface.h"
-#include "IconResources.h"
 #include "EditUserWindow.h"
-#include "SellerApplyWindow.h"
-#include "SearchWindow.h"
-#include "MyCollectionWindow.h"
+#include "IconResources.h"
 #include "MyCartWindow.h"
+#include "MyCollectionWindow.h"
+#include "MyOrderWindow.h"
+#include "SearchWindow.h"
+#include "SellerApplyWindow.h"
 #include "ui_UserMainWindow.h"
 #include <QMessageBox>
 
@@ -18,7 +19,7 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
     ui->scrollAreaWidgetContents->setLayout(vBoxLayout);
     ui->labelUserName->setText(CurrentUser::getInstance()->getUser().name);
     ui->labelUserName->adjustSize();
-    if(CurrentUser::getInstance()->getUser().defaultAddress == nullptr){
+    if (CurrentUser::getInstance()->getUser().defaultAddress == nullptr) {
         ui->labelDefaultAddress->setText("未设置地址信息");
     } else {
         ui->labelDefaultAddress->setText(CurrentUser::getInstance()->getUser().defaultAddress->addressText);
@@ -61,7 +62,7 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
 }
 
 void UserMainWindow::buttonRefreshClicked() {
-    while(QLayoutItem *item = vBoxLayout->takeAt(0)) {
+    while (QLayoutItem *item = vBoxLayout->takeAt(0)) {
         delete item->widget();
         delete item;
     }
@@ -76,7 +77,7 @@ void UserMainWindow::buttonRefreshClicked() {
 void UserMainWindow::buttonSearchClicked() {
     QString searchName = ui->lineEdit->text();
     UserPermission userPermission = DataInterface::getUserPermissionByUserId(CurrentUser::getInstance()->getUserId());
-    if(userPermission.allowShopping == 0){
+    if (userPermission.allowShopping == 0) {
         QMessageBox::information(this, "提示", "你已被管理员禁止购物");
         return;
     }
@@ -86,7 +87,7 @@ void UserMainWindow::buttonSearchClicked() {
 
 void UserMainWindow::buttonStartShoppingClicked() {
     UserPermission userPermission = DataInterface::getUserPermissionByUserId(CurrentUser::getInstance()->getUserId());
-    if(userPermission.allowShopping == 0){
+    if (userPermission.allowShopping == 0) {
         QMessageBox::information(this, "提示", "你已被管理员禁止购物");
         return;
     }
@@ -96,7 +97,7 @@ void UserMainWindow::buttonStartShoppingClicked() {
 
 void UserMainWindow::buttonAddShopClicked() {
     UserPermission userPermission = DataInterface::getUserPermissionByUserId(CurrentUser::getInstance()->getUserId());
-    if(userPermission.allowAddShop == 0){
+    if (userPermission.allowAddShop == 0) {
         QMessageBox::information(this, "提示", "你已被管理员禁止新建店铺");
         return;
     }
@@ -111,7 +112,7 @@ void UserMainWindow::buttonEditUserClicked() {
 void UserMainWindow::refreshUser() {
     ui->labelUserName->setText(CurrentUser::getInstance()->getUser().name);
     ui->labelUserName->adjustSize();
-    if(CurrentUser::getInstance()->getUser().defaultAddress == nullptr){
+    if (CurrentUser::getInstance()->getUser().defaultAddress == nullptr) {
         ui->labelDefaultAddress->setText("未设置地址信息");
     } else {
         ui->labelDefaultAddress->setText(CurrentUser::getInstance()->getUser().defaultAddress->addressText);
@@ -133,10 +134,8 @@ void UserMainWindow::buttonMyCollectionClicked() {
 }
 
 void UserMainWindow::buttonMyOrderClicked() {
-    /*
     MyOrderWindow *myOrderWindow = new MyOrderWindow();
     myOrderWindow->show();
-    */
 }
 
 void UserMainWindow::buttonMyCartClicked() {

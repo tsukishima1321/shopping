@@ -1,4 +1,5 @@
 #include "GoodsWithQuantityForm.h"
+#include "DataInterface.h"
 #include "GlobalConfig.h"
 #include "IconResources.h"
 #include "ui_GoodsWithQuantityForm.h"

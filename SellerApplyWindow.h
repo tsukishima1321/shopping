@@ -2,10 +2,11 @@
 
 #include <QMainWindow>
 
-namespace Ui { class SellerApplyWindow; }
+namespace Ui {
+    class SellerApplyWindow;
+}
 
-class SellerApplyWindow : public QMainWindow
-{
+class SellerApplyWindow : public QMainWindow {
     Q_OBJECT
 
 public:

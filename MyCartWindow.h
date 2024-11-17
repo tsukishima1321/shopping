@@ -1,13 +1,15 @@
 #pragma once
 
-#include <QMainWindow>
-#include <QLayout>
 #include "GoodsWithQuantityForm.h"
+#include "Types.h"
+#include <QLayout>
+#include <QMainWindow>
 
-namespace Ui { class MyCartWindow; }
+namespace Ui {
+    class MyCartWindow;
+}
 
-class MyCartWindow : public QMainWindow
-{
+class MyCartWindow : public QMainWindow {
     Q_OBJECT
 
 public:
@@ -21,4 +23,6 @@ private:
 
     void updateGoods();
     void updateTotalPrice();
+
+    void subMitOrder();
 };

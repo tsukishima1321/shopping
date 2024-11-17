@@ -1,15 +1,17 @@
 #pragma once
 
+#include "Types.h"
 #include <QWidget>
-#include "DataInterface.h"
 
-namespace Ui { class GoodsPreviewForm; }
+namespace Ui {
+    class GoodsPreviewForm;
+}
 
-class GoodsPreviewForm : public QWidget
-{
+class GoodsPreviewForm : public QWidget {
     Q_OBJECT
 signals:
     void isClicked(ID_t id);
+
 public:
     GoodsPreviewForm(QWidget *parent = nullptr);
     ~GoodsPreviewForm();
@@ -30,6 +32,7 @@ private:
     Ui::GoodsPreviewForm *ui;
     bool available;
     ID_t id;
+
 protected:
     virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
     virtual void paintEvent(QPaintEvent *event) override;

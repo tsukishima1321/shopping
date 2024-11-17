@@ -46,7 +46,7 @@ void CurrentUser::setUser(User user) {
 
 Seller CurrentUser::getSeller() const {
     if (sellerLogin)
-        return *dynamic_cast<Seller * const>(user);
+        return *dynamic_cast<Seller *const>(user);
     return Seller();
 }
 

@@ -1,8 +1,9 @@
 #include "GoodsDetailWindow.h"
+#include "CommentForm.h"
 #include "CurrentUser.h"
+#include "DataInterface.h"
 #include "GlobalConfig.h"
 #include "Iconresources.h"
-#include "CommentForm.h"
 #include "ui_GoodsDetailWindow.h"
 #include <QDialog>
 #include <QDialogButtonBox>
@@ -83,7 +84,7 @@ void GoodsDetailWindow::addGoodsToCart() {
             bool r = DataInterface::AddGoodsToCart(CurrentUser::getInstance()->getUserId(), goods.id, quantity);
             if (!r) {
                 QMessageBox::warning(this, "错误", "添加失败");
-            }else{
+            } else {
                 QMessageBox::information(this, "成功", "添加成功");
             }
         }
@@ -94,7 +95,7 @@ void GoodsDetailWindow::addGoodsToCollect() {
     bool r = DataInterface::AddGoodsToCollect(CurrentUser::getInstance()->getUserId(), goods.id);
     if (!r) {
         QMessageBox::warning(this, "错误", "你已经收藏过本商品");
-    }else{
+    } else {
         QMessageBox::information(this, "成功", "收藏成功");
     }
 }

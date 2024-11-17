@@ -35,7 +35,7 @@ AdminMainWindow::AdminMainWindow(QWidget *parent) :
     refreshApply();
 
     connect(ui->tableWidgetUser, &QTableWidget::cellDoubleClicked, this, [this](int row, int column) {
-        (void) column;
+        (void)column;
         ID_t userId = ui->tableWidgetUser->item(row, 0)->text().toUInt();
         EditUserPermission *editUserPermission = new EditUserPermission(userId, nullptr);
         editUserPermission->show();

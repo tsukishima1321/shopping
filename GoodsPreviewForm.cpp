@@ -1,6 +1,6 @@
 #include "GoodsPreviewForm.h"
-#include "ui_GoodsPreviewForm.h"
 #include "Iconresources.h"
+#include "ui_GoodsPreviewForm.h"
 #include <QPainter>
 
 GoodsPreviewForm::GoodsPreviewForm(QWidget *parent) :

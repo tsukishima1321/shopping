@@ -1,7 +1,7 @@
 #pragma once
 
-#include "DataInterface.h"
 #include "GoodsPreviewForm.h"
+#include "Types.h"
 #include <QLayout>
 #include <QMainWindow>
 #include <span>
@@ -37,7 +37,7 @@ private:
     void buttonSearchClicked();
     void updateSearch();
     void locateGoods();
-    GoodsPreviewForm* addGoodsItem(QString image, QString name, QString price, QString des, ID_t id);
+    GoodsPreviewForm *addGoodsItem(QString image, QString name, QString price, QString des, ID_t id);
 
     void openDetailMenu(ID_t id);
 

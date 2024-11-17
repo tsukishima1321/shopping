@@ -1,7 +1,7 @@
 #pragma once
+#include "Types.h"
 #include <QMainWindow>
 #include <QPushButton>
-#include "DataInterface.h"
 
 namespace Ui {
     class EditUserWindow;

@@ -1,10 +1,10 @@
 #include "login.h"
+#include "AdminMainWindow.h"
 #include "CurrentUser.h"
 #include "DataInterface.h"
 #include "UserMainWindow.h"
 #include "UserRegistWindow.h"
 #include "iconresources.h"
-#include "AdminMainWindow.h"
 #include "ui_login.h"
 #include <QMessageBox>
 

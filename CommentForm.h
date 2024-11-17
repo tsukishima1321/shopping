@@ -1,12 +1,13 @@
 #pragma once
 
+#include "Types.h"
 #include <QWidget>
-#include "DataInterface.h"
 
-namespace Ui { class CommentForm; }
+namespace Ui {
+    class CommentForm;
+}
 
-class CommentForm : public QWidget
-{
+class CommentForm : public QWidget {
     Q_OBJECT
 
 public:

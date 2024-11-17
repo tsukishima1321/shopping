@@ -1,12 +1,11 @@
+#include "login.h"
 #include <QApplication>
-#include <QMainWindow>
 #include <QDir>
 #include <QLockFile>
+#include <QMainWindow>
 #include <QMessageBox>
-#include "login.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
     QString path = QDir::temp().absoluteFilePath("SingleApp_shopping.lock");
     QLockFile lockFile(path);

@@ -1,10 +1,11 @@
 #include "EditUserWindow.h"
 #include "CurrentUser.h"
+#include "DataInterface.h"
 #include "Iconresources.h"
 #include "SellerApplyWindow.h"
 #include "ui_EditUserWindow.h"
-#include <QMessageBox>
 #include <QInputDialog>
+#include <QMessageBox>
 
 DeleteButton::DeleteButton(ID_t addressID, QWidget *parent) :
         QPushButton(parent),
@@ -47,7 +48,7 @@ EditUserWindow::EditUserWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->buttonNewAddress->setIcon(IconResources::getIcons()["new-address"]);
     ui->lineEditName->setText(user.name);
-    if(user.isSeller){
+    if (user.isSeller) {
         Seller seller = CurrentUser::getInstance()->getSeller();
         ui->lineEditRealName->setText(seller.realName);
         ui->lineEditIDNumber->setText(seller.realIdentityNumber);
@@ -129,7 +130,7 @@ void EditUserWindow::cancelChanges() {
     ui->lineEditPassword->setText("");
 }
 
-void EditUserWindow::sellerApply(){
+void EditUserWindow::sellerApply() {
     SellerApplyWindow *sellerApplyWindow = new SellerApplyWindow();
     sellerApplyWindow->show();
 }

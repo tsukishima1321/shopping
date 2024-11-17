@@ -1,5 +1,6 @@
 #include "MyCollectionWindow.h"
 #include "CurrentUser.h"
+#include "DataInterface.h"
 #include "GlobalConfig.h"
 #include "GoodsDetailWindow.h"
 #include "ui_MyCollectionWindow.h"

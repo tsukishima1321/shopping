@@ -56,7 +56,7 @@
        </spacer>
       </item>
       <item alignment="Qt::AlignRight">
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="buttonSubmitOrder">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
           <horstretch>0</horstretch>

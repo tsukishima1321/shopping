@@ -1,12 +1,13 @@
 #pragma once
 
+#include "Types.h"
 #include <QWidget>
-#include "DataInterface.h"
 
-namespace Ui { class EditUserPermission; }
+namespace Ui {
+    class EditUserPermission;
+}
 
-class EditUserPermission : public QWidget
-{
+class EditUserPermission : public QWidget {
     Q_OBJECT
 
 public:

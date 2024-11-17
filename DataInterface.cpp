@@ -708,3 +708,10 @@ bool DataInterface::AddComment(ID_t userId, ID_t goodsId, const QString &content
         return query.next();
     }
 }
+
+bool DataInterface::SubmitOrder(ID_t userId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_SubmitOrder ?");
+    query.addBindValue(userId);
+    return query.exec();
+}

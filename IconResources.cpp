@@ -26,8 +26,6 @@ IconResources::IconResources() {
     pixmaps["default-goods"] = QPixmap(":/pic/images/empty-page.png");
 }
 
-
-
 const QMap<QString, QIcon> &IconResources::getIcons() {
     if (!_instance) {
         _instance = new IconResources;

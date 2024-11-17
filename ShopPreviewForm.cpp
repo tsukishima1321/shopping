@@ -1,6 +1,7 @@
 #include "ShopPreviewForm.h"
-#include "ui_ShopPreviewForm.h"
+#include "DataInterface.h"
 #include "IconResources.h"
+#include "ui_ShopPreviewForm.h"
 
 ShopPreviewForm::ShopPreviewForm(QWidget *parent) :
         QWidget(parent),
@@ -13,7 +14,7 @@ ShopPreviewForm::~ShopPreviewForm() {
     delete ui;
 }
 
-void ShopPreviewForm::setShop(Shop shop){
+void ShopPreviewForm::setShop(Shop shop) {
     ui->labelName->setText(shop.name);
     ui->labelName->adjustSize();
     ui->labelDescription->setText(shop.description);
@@ -22,7 +23,7 @@ void ShopPreviewForm::setShop(Shop shop){
 }
 
 void ShopPreviewForm::mouseDoubleClickEvent(QMouseEvent *event) {
-    (void) event;
+    (void)event;
     /*
     ShopWindow *shopWindow = new ShopWindow(shop.id);
     shopWindow->show();

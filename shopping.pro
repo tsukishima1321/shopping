@@ -36,8 +36,10 @@ SOURCES += \
         MyCollectionWindow.cpp \
         MyCartWindow.cpp \
         GoodsWithQuantityForm.cpp \
+        MyOrderWindow.cpp \
 
 HEADERS += \
+        Types.h \
         DBInstance.h \
         GlobalConfig.h \
         DataInterface.h \
@@ -58,6 +60,7 @@ HEADERS += \
         MyCollectionWindow.h \
         MyCartWindow.h \
         GoodsWithQuantityForm.h \
+        MyOrderWindow.h \
 
 FORMS += \
         login.ui \
@@ -75,6 +78,7 @@ FORMS += \
         MyCollectionWindow.ui \
         MyCartWindow.ui \
         GoodsWithQuantityForm.ui \
+        MyOrderWindow.ui \
 
 RESOURCES += \
     resource.qrc

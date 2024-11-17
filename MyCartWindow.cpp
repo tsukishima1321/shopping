@@ -1,9 +1,11 @@
 #include "MyCartWindow.h"
 #include "CurrentUser.h"
+#include "DataInterface.h"
 #include "GoodsDetailWindow.h"
 #include "ui_MyCartWindow.h"
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QMessageBox>
 
 MyCartWindow::MyCartWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MyCartWindow) {
@@ -11,7 +13,7 @@ MyCartWindow::MyCartWindow(QWidget *parent) :
     vBoxLayout = new QVBoxLayout();
     vBoxLayout->setAlignment(Qt::AlignTop);
     ui->scrollAreaWidgetContents->setLayout(vBoxLayout);
-
+    connect(ui->buttonSubmitOrder, &QPushButton::clicked, this, &MyCartWindow::subMitOrder);
     updateGoods();
 }
 
@@ -55,7 +57,7 @@ void MyCartWindow::updateGoods() {
 void MyCartWindow::updateTotalPrice() {
     Price totalPrice = Price();
     for (auto &goods : goodsList) {
-        if(goods.goods.status == 1) {
+        if (goods.goods.status == 1) {
             continue;
         }
         totalPrice = totalPrice + goods.totalPrice;
@@ -65,4 +67,22 @@ void MyCartWindow::updateTotalPrice() {
 
 MyCartWindow::~MyCartWindow() {
     delete ui;
+}
+
+void MyCartWindow::subMitOrder() {
+    QDialog dialog;
+    QVBoxLayout layout(&dialog);
+    QLabel label("确定要提交订单吗？");
+    layout.addWidget(&label);
+    QDialogButtonBox buttonBox(QDialogButtonBox::Yes | QDialogButtonBox::No, Qt::Horizontal, &dialog);
+    layout.addWidget(&buttonBox);
+    QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
+    QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
+    if (dialog.exec() != QDialog::Accepted) {
+        return;
+    }
+    if (!DataInterface::SubmitOrder(CurrentUser::getInstance()->getUserId())) {
+        QMessageBox::warning(nullptr, "错误", "提交订单失败");
+    }
+    updateGoods();
 }

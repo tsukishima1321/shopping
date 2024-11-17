@@ -1,13 +1,14 @@
 #pragma once
 
-#include <QMainWindow>
+#include "Types.h"
 #include <QLayout>
-#include "DataInterface.h"
+#include <QMainWindow>
 
-namespace Ui { class GoodsDetailWindow; }
+namespace Ui {
+    class GoodsDetailWindow;
+}
 
-class GoodsDetailWindow : public QMainWindow
-{
+class GoodsDetailWindow : public QMainWindow {
     Q_OBJECT
 
 public:

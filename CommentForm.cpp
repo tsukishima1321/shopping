@@ -1,15 +1,12 @@
 #include "CommentForm.h"
 #include "ui_CommentForm.h"
 
-CommentForm::CommentForm(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::CommentForm)
-{
+CommentForm::CommentForm(QWidget *parent) :
+        QWidget(parent), ui(new Ui::CommentForm) {
     ui->setupUi(this);
 }
 
-CommentForm::~CommentForm()
-{
+CommentForm::~CommentForm() {
     delete ui;
 }
 

@@ -3,8 +3,9 @@
 
 class DBInstance {
 public:
-    static QSqlDatabase& getInstance();
+    static QSqlDatabase &getInstance();
     ~DBInstance();
+
 protected:
     DBInstance();
     class DBGarbo {
@@ -17,6 +18,6 @@ protected:
         }
     };
     static DBGarbo dbGarbo;
-    static DBInstance* instance;
-    QSqlDatabase* db;
+    static DBInstance *instance;
+    QSqlDatabase *db;
 };

@@ -16,6 +16,7 @@ public:
     QString getStaticPath();
     DBConfig getDBConfig();
     ~GlobalConfig() = default;
+
 protected:
     GlobalConfig();
     static GlobalConfig *instance;

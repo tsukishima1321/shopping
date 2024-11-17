@@ -1,6 +1,6 @@
 #include "GlobalConfig.h"
-#include <QSettings>
 #include <QFileInfo>
+#include <QSettings>
 
 GlobalConfig *GlobalConfig::instance = nullptr;
 

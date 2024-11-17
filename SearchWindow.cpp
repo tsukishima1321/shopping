@@ -1,4 +1,5 @@
 #include "SearchWindow.h"
+#include "DataInterface.h"
 #include "GlobalConfig.h"
 #include "GoodsDetailWindow.h"
 #include "ui_SearchWindow.h"
@@ -64,7 +65,8 @@ SearchWindow::SearchWindow(QWidget *parent) :
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &SearchWindow::buttonSearchClicked);
 }
 
-SearchWindow::SearchWindow(const QString &searchText, QWidget *parent) : SearchWindow(parent) {
+SearchWindow::SearchWindow(const QString &searchText, QWidget *parent) :
+        SearchWindow(parent) {
     ui->lineEdit->setText(searchText);
     buttonSearchClicked();
 }
@@ -126,7 +128,7 @@ GoodsPreviewForm *SearchWindow::addGoodsItem(QString image, QString name, QStrin
     }
     if (formToAdd) {
         formToAdd->setId(id);
-        if(!image.isEmpty()) {
+        if (!image.isEmpty()) {
             QString imagePath = GlobalConfig::getInstance()->getStaticPath() + image;
             formToAdd->setImage(QPixmap(imagePath));
         }
