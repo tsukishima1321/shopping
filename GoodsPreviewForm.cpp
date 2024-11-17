@@ -32,6 +32,7 @@ void GoodsPreviewForm::hideElements() {
     ui->labelPrice->hide();
     ui->labelImg->hide();
     ui->labelOmit->hide();
+    ui->checkBox->hide();
     available = true;
 }
 
@@ -85,4 +86,17 @@ void GoodsPreviewForm::paintEvent(QPaintEvent *event) {
     painter.setPen(QPen(Qt::black, 2));
     painter.drawRect(0, 0, this->width(), this->height());
     return QWidget::paintEvent(event);
+}
+
+void GoodsPreviewForm::enableCheck(bool enabled) {
+    ui->checkBox->setHidden(!enabled);
+    ui->checkBox->setEnabled(enabled);
+}
+
+bool GoodsPreviewForm::isChecked() const {
+    return ui->checkBox->isChecked();
+}
+
+void GoodsPreviewForm::setChecked(bool checked) {
+    ui->checkBox->setChecked(checked);
 }

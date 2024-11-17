@@ -33,6 +33,7 @@ SOURCES += \
         GoodsPreviewForm.cpp \
         GoodsDetailWindow.cpp \
         CommentForm.cpp \ 
+        MyCollectionWindow.cpp \
 
 HEADERS += \
         DBInstance.h \
@@ -52,6 +53,7 @@ HEADERS += \
         GoodsPreviewForm.h \
         GoodsDetailWindow.h \
         CommentForm.h \ 
+        MyCollectionWindow.h \
 
 FORMS += \
         login.ui \
@@ -66,6 +68,7 @@ FORMS += \
         GoodsPreviewForm.ui \
         GoodsDetailWindow.ui \
         CommentForm.ui \ 
+        MyCollectionWindow.ui \
 
 RESOURCES += \
     resource.qrc

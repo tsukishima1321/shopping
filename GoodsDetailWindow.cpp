@@ -66,7 +66,6 @@ void GoodsDetailWindow::addComment() {
 }
 
 void GoodsDetailWindow::addGoodsToCart() {
-    // ask for quantity
     QDialog dialog;
     QVBoxLayout layout(&dialog);
     QLabel label("请输入数量");

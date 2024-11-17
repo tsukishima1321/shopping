@@ -299,6 +299,19 @@ QVector<Comment> DataInterface::getCommentsByGoodsId(ID_t id) {
     return commentList;
 }
 
+QVector<Goods> DataInterface::getCollectionGoodsByUserId(ID_t id) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("SELECT GoodsID FROM Collect WHERE UserID = ?");
+    query.addBindValue(id);
+    query.exec();
+    QVector<Goods> goodsList;
+    while (query.next()) {
+        ID_t goodsId = query.value("GoodsID").toUInt();
+        goodsList.append(getGoodsById(goodsId));
+    }
+    return goodsList;
+}
+
 UserPermission DataInterface::getUserPermissionByUserId(ID_t id) {
     QSqlQuery query(DBInstance::getInstance());
     query.prepare("SELECT * FROM UserPermission WHERE UserID = ?");
@@ -653,6 +666,14 @@ bool DataInterface::AddGoodsToCollect(ID_t userId, ID_t goodsId) {
     } else {
         return query.next();
     }
+}
+
+bool DataInterface::RemoveGoodsFromCollect(ID_t userId, ID_t goodsId) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("DELETE FROM Collect WHERE UserID = ? AND GoodsID = ?");
+    query.addBindValue(userId);
+    query.addBindValue(goodsId);
+    return query.exec();
 }
 
 bool DataInterface::AddComment(ID_t userId, ID_t goodsId, const QString &content) {

@@ -5,6 +5,7 @@
 #include "EditUserWindow.h"
 #include "SellerApplyWindow.h"
 #include "SearchWindow.h"
+#include "MyCollectionWindow.h"
 #include "ui_UserMainWindow.h"
 #include <QMessageBox>
 
@@ -126,10 +127,8 @@ void UserMainWindow::refreshUser() {
 }
 
 void UserMainWindow::buttonMyCollectionClicked() {
-    /*
     MyCollectionWindow *myCollectionWindow = new MyCollectionWindow();
     myCollectionWindow->show();
-    */
 }
 
 void UserMainWindow::buttonMyOrderClicked() {

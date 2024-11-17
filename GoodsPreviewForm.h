@@ -22,6 +22,10 @@ public:
     int getHeight() const;
     void setOmit(bool omit);
 
+    void enableCheck(bool enabled);
+    bool isChecked() const;
+    void setChecked(bool checked);
+
 private:
     Ui::GoodsPreviewForm *ui;
     bool available;

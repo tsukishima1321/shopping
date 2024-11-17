@@ -161,6 +161,7 @@ namespace DataInterface{
     QVector<Address> getAddressesByUserId(ID_t userId);
     QVector<Shop> getShopsBySellerId(ID_t sellerId);
     QVector<Comment> getCommentsByGoodsId(ID_t goodsId);
+    QVector<Goods> getCollectionGoodsByUserId(ID_t id);
     UserPermission getUserPermissionByUserId(ID_t id);
 
     QVector<Goods> getGoodsByShopId(ID_t shopId);
@@ -193,6 +194,7 @@ namespace DataInterface{
 
     bool AddGoodsToCart(ID_t userId, ID_t goodsId, unsigned int quantity);
     bool AddGoodsToCollect(ID_t userId, ID_t goodsId);
+    bool RemoveGoodsFromCollect(ID_t userId, ID_t goodsId);
 
     bool AddComment(ID_t userId, ID_t goodsId, const QString& content);
 }
