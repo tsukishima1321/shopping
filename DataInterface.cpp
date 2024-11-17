@@ -395,6 +395,9 @@ QVector<Order> DataInterface::getOrdersByUserId(ID_t userId) {
         order.userId = query.value("UserID").toUInt();
         order.shopName = query.value("ShopName").toString();
         order.status = query.value("Status").toInt();
+        order.addressText = query.value("Address").toString();
+        order.receiverName = query.value("Receiver").toString();
+        order.receiverPhone = query.value("Phone").toString();
         orderList.append(order);
     }
     query.finish();
@@ -429,6 +432,9 @@ QVector<Order> DataInterface::getOrdersBySellerId(ID_t sellerId) {
             order.userId = query2.value("UserID").toUInt();
             order.shopName = query2.value("ShopName").toString();
             order.status = query2.value("Status").toInt();
+            order.addressText = query2.value("Address").toString();
+            order.receiverName = query2.value("Receiver").toString();
+            order.receiverPhone = query2.value("Phone").toString();
             orderList.append(order);
         }
     }
@@ -771,5 +777,59 @@ bool DataInterface::SubmitOrder(ID_t userId, ID_t addressId) {
     query.prepare("EXEC sp_SubmitOrder ?, ?");
     query.addBindValue(userId);
     query.addBindValue(addressId);
+    return query.exec();
+}
+
+bool DataInterface::UpdateGoods(const Goods &goods) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_UpdateGoods ?, ?, ?, ?, ?");
+    query.addBindValue(goods.id);
+    query.addBindValue(goods.name);
+    query.addBindValue(goods.description);
+    query.addBindValue(static_cast<double>(goods.price));
+    query.addBindValue(goods.image);
+    return query.exec();
+}
+
+std::optional<ID_t> DataInterface::AddGoods(const Goods &goods) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_AddGoods ?, ?, ?, ?, ?");
+    query.addBindValue(goods.shopId);
+    query.addBindValue(goods.name);
+    query.addBindValue(goods.description);
+    query.addBindValue(static_cast<double>(goods.price));
+    query.addBindValue(goods.image);
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
+        return std::nullopt;
+    }
+    if (query.next()) {
+        return query.value("GoodsID").toUInt();
+    }
+    return std::nullopt;
+}
+
+std::optional<ID_t> DataInterface::AddShop(const Shop &shop) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_AddShop ?, ?, ?");
+    query.addBindValue(shop.sellerId);
+    query.addBindValue(shop.name);
+    query.addBindValue(shop.description);
+    if (!query.exec()) {
+        QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());
+        return std::nullopt;
+    }
+    if (query.next()) {
+        return query.value("ShopID").toUInt();
+    }
+    return std::nullopt;
+}
+
+bool DataInterface::UpdateShop(const Shop &shop) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("EXEC sp_UpdateShop ?, ?, ?");
+    query.addBindValue(shop.id);
+    query.addBindValue(shop.name);
+    query.addBindValue(shop.description);
     return query.exec();
 }

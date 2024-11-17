@@ -16,6 +16,7 @@ ShopDetailWindow::ShopDetailWindow(ID_t shopId, QWidget *parent) :
     ui->scrollAreaWidgetContents->setLayout(hBoxLayout);
     ui->labelShopIcon->setPixmap(IconResources::getPixmaps()["store"]);
     ui->labelShopName->setText(shop.name);
+    ui->labelShopDes->setText(shop.description);
 
     for (const Goods &goods : goodsList) {
         previewList.append(new GoodsPreviewForm);

@@ -200,12 +200,29 @@ CREATE PROCEDURE sp_AddGoods
     @ShopID INT,
     @GoodsName VARCHAR(20),
     @Description VARCHAR(100),
-    @Price DECIMAL(10, 2)
+    @Price DECIMAL(10, 2),
+    @Image VARCHAR(100)
 AS
 BEGIN
-    INSERT INTO Goods (ShopID, GoodsName, Description, Price, Status)
-    VALUES (@ShopID, @GoodsName, @Description, @Price, 0);
+    INSERT INTO Goods (ShopID, GoodsName, Description, Price, Status, Image)
+    VALUES (@ShopID, @GoodsName, @Description, @Price, 0, @Image);
     SELECT SCOPE_IDENTITY();
+END;
+
+-- 更新商品
+DROP PROCEDURE IF EXISTS sp_UpdateGoods;
+CREATE PROCEDURE sp_UpdateGoods
+    @GoodsID INT,
+    @GoodsName VARCHAR(20),
+    @Description VARCHAR(100),
+    @Price DECIMAL(10, 2),
+    @Image VARCHAR(100)
+AS
+BEGIN
+    UPDATE Goods
+    SET GoodsName = @GoodsName, Description = @Description, Price = @Price, Image = @Image
+    WHERE GoodsID = @GoodsID;
+    SELECT @GoodsID;
 END;
 
 -- 下架商品
@@ -228,6 +245,33 @@ BEGIN
     UPDATE Goods
     SET Status = 0
     WHERE GoodsID = @GoodsID;
+END;
+
+-- 添加店铺
+DROP PROCEDURE IF EXISTS sp_AddShop;
+CREATE PROCEDURE sp_AddShop
+    @SellerID INT,
+    @ShopName VARCHAR(20),
+    @Description VARCHAR(100)
+AS
+BEGIN
+    INSERT INTO Shop (SellerID, ShopName, Description, Status)
+    VALUES (@SellerID, @ShopName, @Description, 1);
+    SELECT SCOPE_IDENTITY();
+END;
+
+-- 更新店铺
+DROP PROCEDURE IF EXISTS sp_UpdateShop;
+CREATE PROCEDURE sp_UpdateShop
+    @ShopID INT,
+    @ShopName VARCHAR(20),
+    @Description VARCHAR(100)
+AS
+BEGIN
+    UPDATE Shop
+    SET ShopName = @ShopName, Description = @Description
+    WHERE ShopID = @ShopID;
+    SELECT @ShopID;
 END;
 
 -- 商家查询与自己相关的订单

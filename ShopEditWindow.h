@@ -23,6 +23,9 @@ private:
     Ui::ShopEditWindow *ui;
     Shop shop;
 
+    void submit();
+    void cancel();
+
     QVector<Goods> goodsList;
 
     int currentColumnCount;
@@ -37,4 +40,5 @@ private:
     GoodsPreviewForm *addGoodsItem(QString image, QString name, QString price, QString des, ID_t id);
 
     void openDetailMenu(ID_t id);
+    void newGoods();
 };

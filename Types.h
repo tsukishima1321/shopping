@@ -128,6 +128,9 @@ struct Order{
     ID_t orderId;
     ID_t shopId;
     ID_t userId;
+    QString addressText;
+    QString receiverName;
+    QString receiverPhone;
     QString shopName;
     int status;
     QDateTime time;

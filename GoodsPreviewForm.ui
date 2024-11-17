@@ -32,7 +32,10 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
+   <property name="leftMargin">
+    <number>4</number>
+   </property>
+   <item alignment="Qt::AlignLeft">
     <widget class="QLabel" name="labelImg">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -44,6 +47,12 @@
       <size>
        <width>300</width>
        <height>20</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>280</width>
+       <height>16777215</height>
       </size>
      </property>
      <property name="styleSheet">

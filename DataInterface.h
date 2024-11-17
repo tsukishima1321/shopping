@@ -49,6 +49,12 @@ namespace DataInterface {
     std::optional<ID_t> UpdateUser(const User &user);
     bool setUserPermissionByUserId(ID_t id, const UserPermission &permission);
 
+    bool UpdateGoods(const Goods& goods);
+    std::optional<ID_t> AddGoods(const Goods& goods);
+
+    bool UpdateShop(const Shop& shop);
+    std::optional<ID_t> AddShop(const Shop& shop);
+
     bool DeleteAddress(ID_t addressId);
     bool SetDefaultAddress(ID_t addressId, ID_t userId);
     std::optional<ID_t> AddAddress(const QString &addressText, const QString &receiverName, const QString &receiverPhone, ID_t userId);

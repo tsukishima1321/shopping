@@ -20,6 +20,7 @@ GoodsDetailWindow::GoodsDetailWindow(ID_t goodsId, QWidget *parent) :
     ui->labelGoodsDes->setText(goods.description);
     ui->labelGoodsName->setText(goods.name);
     ui->labelShopName->setText(goods.shopName);
+    ui->labelPrice->setText("单价：" + goods.price.toString());
     if (goods.image.isEmpty()) {
         ui->labelGoodsImage->setPixmap(IconResources::getPixmaps()["default-goods"].scaled(ui->labelGoodsImage->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     } else {
@@ -32,11 +33,16 @@ GoodsDetailWindow::GoodsDetailWindow(ID_t goodsId, QWidget *parent) :
     connect(ui->buttonEnterShop, &QPushButton::clicked, this, &GoodsDetailWindow::openShop);
 
     commentsLayout = new QVBoxLayout();
+    commentsLayout->setAlignment(Qt::AlignTop);
     ui->scrollAreaWidgetContents->setLayout(commentsLayout);
     refreshComments();
 }
 
 void GoodsDetailWindow::refreshComments() {
+    while(QLayoutItem *item = commentsLayout->takeAt(0)) {
+        delete item->widget();
+        delete item;
+    }
     QVector<Comment> comments = DataInterface::getCommentsByGoodsId(goods.id);
     for (const Comment &comment : comments) {
         CommentForm *label = new CommentForm();
