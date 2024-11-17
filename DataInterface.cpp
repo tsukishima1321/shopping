@@ -47,6 +47,29 @@ User DataInterface::getUserById(ID_t id) {
     return User();
 }
 
+Order DataInterface::getOrderById(ID_t id) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("SELECT * FROM OrderDetail WHERE OrderID = ?");
+    query.addBindValue(id);
+    query.exec();
+    if (query.next()) {
+        Order order;
+        order.orderId = query.value("OrderID").toUInt();
+        order.shopId = query.value("ShopID").toUInt();
+        order.time = query.value("CreateTime").toDateTime();
+        order.userId = query.value("UserID").toUInt();
+        order.shopName = query.value("ShopName").toString();
+        order.status = query.value("Status").toInt();
+        order.addressText = query.value("Address").toString();
+        order.receiverName = query.value("Receiver").toString();
+        order.receiverPhone = query.value("Phone").toString();
+        query.finish();
+        order.goods = getGoodsInOrder(order.orderId);
+        return order;
+    }
+    return Order();
+}
+
 QVector<UserWithTime> DataInterface::AdminGetAllUsers() {
     QSqlQuery query(DBInstance::getInstance());
     query.prepare("SELECT * FROM Users");
@@ -831,5 +854,13 @@ bool DataInterface::UpdateShop(const Shop &shop) {
     query.addBindValue(shop.id);
     query.addBindValue(shop.name);
     query.addBindValue(shop.description);
+    return query.exec();
+}
+
+bool DataInterface::UpdateOrderStatus(ID_t orderId, int status) {
+    QSqlQuery query(DBInstance::getInstance());
+    query.prepare("UPDATE OrderDetail SET Status = ? WHERE OrderID = ?");
+    query.addBindValue(status);
+    query.addBindValue(orderId);
     return query.exec();
 }

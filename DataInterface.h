@@ -16,6 +16,7 @@ namespace DataInterface {
     Seller getSellerById(ID_t id);
     Shop getShopById(ID_t id);
     Goods getGoodsById(ID_t id);
+    Order getOrderById(ID_t id);
 
     QVector<UserWithTime> AdminGetAllUsers();
     QVector<Seller> AdminGetAllSellers();
@@ -54,6 +55,8 @@ namespace DataInterface {
 
     bool UpdateShop(const Shop& shop);
     std::optional<ID_t> AddShop(const Shop& shop);
+
+    bool UpdateOrderStatus(ID_t orderId, int status);
 
     bool DeleteAddress(ID_t addressId);
     bool SetDefaultAddress(ID_t addressId, ID_t userId);

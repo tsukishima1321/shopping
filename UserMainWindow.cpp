@@ -2,6 +2,7 @@
 #include "CurrentUser.h"
 #include "DataInterface.h"
 #include "EditUserWindow.h"
+#include "HandleOrderWindow.h"
 #include "IconResources.h"
 #include "MyCartWindow.h"
 #include "MyCollectionWindow.h"
@@ -41,6 +42,7 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
             vBoxLayout->addWidget(shopPreviewForm);
         }
     } else {
+        ui->buttonHandleOrder->hide();
         ui->labelSellerName->hide();
         ui->labelSellerRealName->hide();
         ui->labelSellerIDNumber->hide();
@@ -62,6 +64,7 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
     connect(ui->buttonMyCart, &QPushButton::clicked, this, &UserMainWindow::buttonMyCartClicked);
     connect(ui->buttonRefresh, &QToolButton::clicked, this, &UserMainWindow::buttonRefreshClicked);
     connect(ui->buttonSellerRegist, &QPushButton::clicked, this, &UserMainWindow::buttonSellerApplyClicked);
+    connect(ui->buttonHandleOrder, &QPushButton::clicked, this, [this]() {HandleOrderWindow* handleOrderWindow = new HandleOrderWindow;handleOrderWindow->show(); });
 }
 
 void UserMainWindow::buttonRefreshClicked() {
@@ -104,7 +107,7 @@ void UserMainWindow::buttonAddShopClicked() {
         QMessageBox::information(this, "提示", "你已被管理员禁止新建店铺");
         return;
     }
-    ShopEditWindow* shopEditWindow = new ShopEditWindow();
+    ShopEditWindow *shopEditWindow = new ShopEditWindow();
     shopEditWindow->show();
 }
 
