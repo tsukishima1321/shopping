@@ -108,13 +108,14 @@ EXEC sys.sp_addextendedproperty @name = N'MS_Description',
     0: 正常
     1: 下架
 */
-
 CREATE TABLE Orders (
     OrderID INT PRIMARY KEY IDENTITY(1, 1),
     UserID INT NOT NULL,
     FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE NO ACTION ON UPDATE NO ACTION,
     ShopID INT NOT NULL,
     FOREIGN KEY (ShopID) REFERENCES Shop(ShopID) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    AddressID INT NOT NULL,
+    FOREIGN KEY (AddressID) REFERENCES Address(AddressID) ON DELETE NO ACTION ON UPDATE NO ACTION,
     Status INT NOT NULL,
     TotalPrice DECIMAL(10, 2) NOT NULL,
     CreateTime DATETIME NOT NULL
@@ -204,10 +205,11 @@ INNER JOIN Users ON Seller.UserID = Users.UserID;
 -- 订单详情视图
 DROP VIEW IF EXISTS OrderDetail;
 CREATE VIEW OrderDetail AS
-SELECT Orders.OrderID, Orders.Status, Orders.TotalPrice, Orders.CreateTime, Users.UserID, Users.UserName, Orders.shopID, Shop.ShopName
+SELECT Orders.OrderID, Orders.Status, Orders.TotalPrice, Orders.CreateTime, Users.UserID, Users.UserName, Orders.shopID, Shop.ShopName, Address.Address, Address.Receiver, Address.Phone
 FROM Orders
 INNER JOIN Users ON Orders.UserID = Users.UserID
-INNER JOIN Shop ON Orders.ShopID = Shop.ShopID;
+INNER JOIN Shop ON Orders.ShopID = Shop.ShopID
+INNER JOIN Address ON Orders.AddressID = Address.AddressID;
 
 -- 订单商品详情视图
 CREATE VIEW OrderGoodsDetail AS

@@ -10,6 +10,15 @@
 MyCartWindow::MyCartWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MyCartWindow) {
     ui->setupUi(this);
+    addresses = DataInterface::getAddressesByUserId(CurrentUser::getInstance()->getUserId());
+    int i = 0;
+    for (auto &address : addresses) {
+        ui->comboBox->addItem(address.addressText + " " + address.receiverName + " " + address.receiverPhone);
+        if (address.id == CurrentUser::getInstance()->getUser().defaultAddress->id) {
+            ui->comboBox->setCurrentIndex(i);
+        }
+        i++;
+    }
     vBoxLayout = new QVBoxLayout();
     vBoxLayout->setAlignment(Qt::AlignTop);
     ui->scrollAreaWidgetContents->setLayout(vBoxLayout);
@@ -81,7 +90,7 @@ void MyCartWindow::subMitOrder() {
     if (dialog.exec() != QDialog::Accepted) {
         return;
     }
-    if (!DataInterface::SubmitOrder(CurrentUser::getInstance()->getUserId())) {
+    if (!DataInterface::SubmitOrder(CurrentUser::getInstance()->getUserId(), addresses[ui->comboBox->currentIndex()].id)) {
         QMessageBox::warning(nullptr, "错误", "提交订单失败");
     }
     updateGoods();

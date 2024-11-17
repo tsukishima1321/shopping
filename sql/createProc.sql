@@ -82,7 +82,8 @@ END;
 -- 将购物车提交为订单
 DROP PROCEDURE IF EXISTS sp_SubmitOrder;
 CREATE PROCEDURE sp_SubmitOrder
-    @UserID INT
+    @UserID INT,
+    @AddressID INT
 AS
 BEGIN
     DECLARE @OrderID INT;
@@ -121,8 +122,8 @@ BEGIN
         END
         CLOSE ShopGoodsCursor;
         DEALLOCATE ShopGoodsCursor;
-        INSERT INTO Orders (UserID, ShopID, Status, TotalPrice, CreateTime)
-        VALUES (@UserID, @ShopID, 0, @ShopTotalPrice, GETDATE());
+        INSERT INTO Orders (UserID, ShopID, Status, TotalPrice, CreateTime, AddressID)
+        VALUES (@UserID, @ShopID, 0, @ShopTotalPrice, GETDATE(), @AddressID);
         SELECT @OrderID = SCOPE_IDENTITY();
         DECLARE OrderGoodsCursor CURSOR LOCAL FOR SELECT GoodsID, Quantity FROM @ShopGoods WHERE ShopID = @ShopID;
         OPEN OrderGoodsCursor;

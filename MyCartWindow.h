@@ -21,6 +21,8 @@ private:
     QVector<GoodsWithQuantity> goodsList;
     QVBoxLayout *vBoxLayout;
 
+    QList<Address> addresses;
+
     void updateGoods();
     void updateTotalPrice();
 

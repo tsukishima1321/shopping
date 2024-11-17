@@ -69,5 +69,5 @@ namespace DataInterface {
 
     bool AddComment(ID_t userId, ID_t goodsId, const QString &content);
 
-    bool SubmitOrder(ID_t userId);
+    bool SubmitOrder(ID_t userId, ID_t addressId);
 }
