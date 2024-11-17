@@ -28,6 +28,8 @@ public:
     bool isChecked() const;
     void setChecked(bool checked);
 
+    void setDeactive();
+
 private:
     Ui::GoodsPreviewForm *ui;
     bool available;

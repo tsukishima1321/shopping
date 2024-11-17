@@ -2,6 +2,7 @@
 #include "Iconresources.h"
 #include "ui_GoodsPreviewForm.h"
 #include <QPainter>
+#include <QGraphicsEffect>
 
 GoodsPreviewForm::GoodsPreviewForm(QWidget *parent) :
         QWidget(parent), ui(new Ui::GoodsPreviewForm) {
@@ -99,4 +100,11 @@ bool GoodsPreviewForm::isChecked() const {
 
 void GoodsPreviewForm::setChecked(bool checked) {
     ui->checkBox->setChecked(checked);
+}
+
+void GoodsPreviewForm::setDeactive() {
+    QGraphicsColorizeEffect *effect = new QGraphicsColorizeEffect(this);
+    effect->setColor(Qt::white);
+    effect->setStrength(0.5);
+    this->setGraphicsEffect(effect);
 }

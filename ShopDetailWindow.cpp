@@ -9,8 +9,8 @@ ShopDetailWindow::ShopDetailWindow(ID_t shopId, QWidget *parent) :
         QMainWindow(parent),
         ui(new Ui::ShopDetailWindow),
         shop(DataInterface::getShopById(shopId)),
-        currentColumnCount(3),
-        goodsList(DataInterface::getGoodsByShopId(shop.id)) {
+        goodsList(DataInterface::getGoodsByShopId(shop.id)),
+        currentColumnCount(3) {
     ui->setupUi(this);
     hBoxLayout = new QHBoxLayout;
     ui->scrollAreaWidgetContents->setLayout(hBoxLayout);
@@ -19,9 +19,7 @@ ShopDetailWindow::ShopDetailWindow(ID_t shopId, QWidget *parent) :
 
     for (const Goods &goods : goodsList) {
         previewList.append(new GoodsPreviewForm);
-        addGoodsItem(goods.image, goods.name, goods.price.toString(), goods.description, goods.id);
-    }
-    for (auto &&form : previewList) {
+        auto form = addGoodsItem(goods.image, goods.name, goods.price.toString(), goods.description, goods.id);
         connect(form, &GoodsPreviewForm::isClicked, this, &ShopDetailWindow::openDetailMenu);
     }
     locateGoods();

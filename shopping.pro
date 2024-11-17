@@ -39,6 +39,8 @@ SOURCES += \
         MyOrderWindow.cpp \
         OrderDetailView.cpp \
         ShopDetailWindow.cpp \
+        ShopEditWindow.cpp \ 
+        GoodsEditWindow.cpp \
 
 HEADERS += \
         Types.h \
@@ -65,6 +67,8 @@ HEADERS += \
         MyOrderWindow.h \
         OrderDetailView.h \ 
         ShopDetailWindow.h \
+        ShopEditWindow.h \
+        GoodsEditWindow.h \
 
 FORMS += \
         login.ui \
@@ -85,6 +89,8 @@ FORMS += \
         MyOrderWindow.ui \
         OrderDetailView.ui \ 
         ShopDetailWindow.ui \
+        ShopEditWindow.ui \
+        GoodsEditWindow.ui \
 
 RESOURCES += \
     resource.qrc

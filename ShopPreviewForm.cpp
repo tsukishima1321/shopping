@@ -1,6 +1,7 @@
 #include "ShopPreviewForm.h"
 #include "DataInterface.h"
 #include "IconResources.h"
+#include "ShopEditWindow.h"
 #include "ui_ShopPreviewForm.h"
 
 ShopPreviewForm::ShopPreviewForm(QWidget *parent) :
@@ -24,8 +25,7 @@ void ShopPreviewForm::setShop(Shop shop) {
 
 void ShopPreviewForm::mouseDoubleClickEvent(QMouseEvent *event) {
     (void)event;
-    /*
-    ShopWindow *shopWindow = new ShopWindow(shop.id);
+    ShopEditWindow *shopWindow = new ShopEditWindow();
+    shopWindow->setShopId(this->shop.id);
     shopWindow->show();
-    */
 }
