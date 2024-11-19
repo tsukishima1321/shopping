@@ -39,7 +39,7 @@ GoodsDetailWindow::GoodsDetailWindow(ID_t goodsId, QWidget *parent) :
 }
 
 void GoodsDetailWindow::refreshComments() {
-    while(QLayoutItem *item = commentsLayout->takeAt(0)) {
+    while (QLayoutItem *item = commentsLayout->takeAt(0)) {
         delete item->widget();
         delete item;
     }
@@ -74,26 +74,14 @@ void GoodsDetailWindow::addComment() {
 }
 
 void GoodsDetailWindow::addGoodsToCart() {
-    QDialog dialog;
-    QVBoxLayout layout(&dialog);
-    QLabel label("请输入数量");
-    QLineEdit lineEdit;
-    layout.addWidget(&label);
-    layout.addWidget(&lineEdit);
-    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
-    layout.addWidget(&buttonBox);
-    QObject::connect(&buttonBox, &QDialogButtonBox::accepted, &dialog, &QDialog::accept);
-    QObject::connect(&buttonBox, &QDialogButtonBox::rejected, &dialog, &QDialog::reject);
-    if (dialog.exec() == QDialog::Accepted) {
-        bool ok;
-        int quantity = lineEdit.text().toInt(&ok);
-        if (ok) {
-            bool r = DataInterface::AddGoodsToCart(CurrentUser::getInstance()->getUserId(), goods.id, quantity);
-            if (!r) {
-                QMessageBox::warning(this, "错误", "添加失败");
-            } else {
-                QMessageBox::information(this, "成功", "添加成功");
-            }
+    int quantity = ui->spinBox->value();
+    QMessageBox::StandardButton button = QMessageBox::question(this, "确认", "是否添加" + QString::number(quantity) + "件商品到购物车？");
+    if (button == QMessageBox::Yes) {
+        bool r = DataInterface::AddGoodsToCart(CurrentUser::getInstance()->getUserId(), goods.id, quantity);
+        if (!r) {
+            QMessageBox::warning(this, "错误", "添加失败");
+        } else {
+            QMessageBox::information(this, "成功", "添加成功");
         }
     }
 }

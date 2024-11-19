@@ -45,7 +45,7 @@ void GoodsEditWindow::uploadImage() {
     QString image = imagePath.right(imagePath.size() - imagePath.lastIndexOf('/') - 1);
     goods.image = image;
     QFile::copy(imagePath, staticPath + image);
-    ui->labelGoodsImage->setPixmap(QPixmap(staticPath + imagePath).scaled(ui->labelGoodsImage->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+    ui->labelGoodsImage->setPixmap(QPixmap(staticPath + image).scaled(ui->labelGoodsImage->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
 }
 
 void GoodsEditWindow::submit() {

@@ -28,7 +28,7 @@ void GoodsWithQuantityForm::setGoods(const Goods &goods, int quantity) {
     ui->spinBox->blockSignals(false);
     if (!goods.image.isEmpty()) {
         QString imgPath = GlobalConfig::getInstance()->getStaticPath() + goods.image;
-        ui->labelImage->setPixmap(QPixmap(imgPath).scaled(Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
+        ui->labelImage->setPixmap(QPixmap(imgPath).scaled(ui->labelImage->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     } else {
         ui->labelImage->setPixmap(IconResources::getPixmaps()["default-goods"].scaled(ui->labelImage->size(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation));
     }
@@ -45,6 +45,7 @@ void GoodsWithQuantityForm::setGoods(const Goods &goods, int quantity) {
         this->setGraphicsEffect(effect);
         ui->spinBox->setEnabled(false);
     }
+    this->adjustSize();
 }
 
 void GoodsWithQuantityForm::setReadOnly(bool readOnly) {

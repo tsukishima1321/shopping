@@ -54,6 +54,7 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
     }
     ui->buttonSearch->setIcon(IconResources::getIcons()["search"]);
     ui->buttonRefresh->setIcon(IconResources::getIcons()["refresh"]);
+    ui->buttonRefreshCollection->setIcon(IconResources::getIcons()["refresh"]);
 
     MyCollectionWindow *myCollectionWindow = new MyCollectionWindow();
     ui->verticalLayout_7->addWidget(myCollectionWindow);
@@ -67,6 +68,7 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
     connect(ui->buttonRefresh, &QToolButton::clicked, this, &UserMainWindow::buttonRefreshClicked);
     connect(ui->buttonSellerRegist, &QPushButton::clicked, this, &UserMainWindow::buttonSellerApplyClicked);
     connect(ui->buttonHandleOrder, &QPushButton::clicked, this, [this]() {HandleOrderWindow* handleOrderWindow = new HandleOrderWindow;handleOrderWindow->show(); });
+    connect(ui->buttonRefreshCollection, &QPushButton::clicked, myCollectionWindow, &MyCollectionWindow::updateCollection);
 }
 
 void UserMainWindow::buttonRefreshClicked() {
