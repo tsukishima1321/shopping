@@ -11,7 +11,7 @@ CommentForm::~CommentForm() {
 }
 
 void CommentForm::setComment(const Comment &comment) {
-    ui->labelUserName->setText(comment.userName);
+    ui->labelUserName->setText(comment.nickname);
     ui->labelCommentTime->setText(comment.time.toString());
     ui->labelContent->setText(comment.content);
 }

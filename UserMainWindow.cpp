@@ -19,7 +19,7 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
     ui->setupUi(this);
     vBoxLayout = new QVBoxLayout();
     ui->scrollAreaWidgetContents->setLayout(vBoxLayout);
-    ui->labelUserName->setText(CurrentUser::getInstance()->getUser().name);
+    ui->labelUserName->setText(CurrentUser::getInstance()->getUser().nickname);
     ui->labelUserName->adjustSize();
     if (CurrentUser::getInstance()->getUser().defaultAddress == nullptr) {
         ui->labelDefaultAddress->setText("未设置地址信息");
@@ -28,7 +28,7 @@ UserMainWindow::UserMainWindow(QWidget *parent) :
         ui->labelDefaultAddress->adjustSize();
     }
     if (CurrentUser::getInstance()->isSeller()) {
-        ui->labelSellerName->setText(CurrentUser::getInstance()->getSeller().name);
+        ui->labelSellerName->setText(CurrentUser::getInstance()->getSeller().nickname);
         ui->labelSellerName->adjustSize();
         ui->labelSellerRealName->setText(CurrentUser::getInstance()->getSeller().realName);
         ui->labelSellerRealName->adjustSize();
@@ -124,7 +124,7 @@ void UserMainWindow::buttonEditUserClicked() {
 }
 
 void UserMainWindow::refreshUser() {
-    ui->labelUserName->setText(CurrentUser::getInstance()->getUser().name);
+    ui->labelUserName->setText(CurrentUser::getInstance()->getUser().nickname);
     ui->labelUserName->adjustSize();
     if (CurrentUser::getInstance()->getUser().defaultAddress == nullptr) {
         ui->labelDefaultAddress->setText("未设置地址信息");
@@ -133,7 +133,7 @@ void UserMainWindow::refreshUser() {
         ui->labelDefaultAddress->adjustSize();
     }
     if (CurrentUser::getInstance()->isSeller()) {
-        ui->labelSellerName->setText(CurrentUser::getInstance()->getSeller().name);
+        ui->labelSellerName->setText(CurrentUser::getInstance()->getSeller().nickname);
         ui->labelSellerName->adjustSize();
         ui->labelSellerRealName->setText(CurrentUser::getInstance()->getSeller().realName);
         ui->labelSellerRealName->adjustSize();

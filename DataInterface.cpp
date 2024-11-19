@@ -17,6 +17,7 @@ User DataInterface::getUserById(ID_t id) {
         User user;
         user.id = query.value("UserID").toUInt();
         user.name = query.value("UserName").toString();
+        user.nickname = query.value("Nickname").toString();
         user.password = query.value("Password").toString();
         user.isSeller = query.value("isSeller").toBool();
         QSqlQuery query2(DBInstance::getInstance());
@@ -314,7 +315,7 @@ QVector<Comment> DataInterface::getCommentsByGoodsId(ID_t id) {
     QVector<Comment> commentList;
     while (query.next()) {
         Comment comment;
-        comment.userName = query.value("UserName").toString();
+        comment.nickname = query.value("Nickname").toString();
         comment.content = query.value("Content").toString();
         comment.time = query.value("CreateTime").toDateTime();
         commentList.append(comment);
@@ -615,9 +616,10 @@ SellerApplySubmitStatus DataInterface::SubmitSellerApply(ID_t userID, const QStr
 
 std::optional<ID_t> DataInterface::UpdateUser(const User &user) {
     QSqlQuery query(DBInstance::getInstance());
-    query.prepare("EXEC sp_UpdateUserInfo ?, ?, ?");
+    query.prepare("EXEC sp_UpdateUserInfo ?, ?, ?, ?");
     query.addBindValue(user.id);
     query.addBindValue(user.name);
+    query.addBindValue(user.nickname);
     query.addBindValue(user.password);
     if (!query.exec()) {
         QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());

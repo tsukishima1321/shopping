@@ -29,7 +29,8 @@ CREATE TABLE Users (
     Password VARCHAR(20) NOT NULL,
     RegisterTime DATETIME NOT NULL,
     LastLoginTime DATETIME NOT NULL,
-    IsSeller BIT NOT NULL
+    IsSeller BIT NOT NULL,
+    Nickname VARCHAR(20),
 );
 
 CREATE TABLE Seller (
@@ -93,7 +94,7 @@ CREATE TABLE Goods (
     GoodsID INT PRIMARY KEY IDENTITY(1, 1),
     ShopID INT NOT NULL,
     FOREIGN KEY (ShopID) REFERENCES Shop(ShopID) ON DELETE CASCADE,
-    GoodsName VARCHAR(20) NOT NULL,
+    GoodsName VARCHAR(40) NOT NULL,
     Description VARCHAR(100) NOT NULL,
     Price DECIMAL(10, 2) NOT NULL,
     Status INT NOT NULL,
@@ -227,7 +228,7 @@ INNER JOIN Shop ON Goods.ShopID = Shop.ShopID;
 
 -- 用户评论视图
 CREATE VIEW CommentDetail AS
-SELECT Comment.CommentID, Comment.Content, Comment.CreateTime, Users.UserName, Comment.GoodsID
+SELECT Comment.CommentID, Comment.Content, Comment.CreateTime, Users.Nickname, Comment.GoodsID
 FROM Comment
 INNER JOIN Users ON Comment.UserID = Users.UserID;
 

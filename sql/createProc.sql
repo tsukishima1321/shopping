@@ -321,6 +321,7 @@ DROP PROCEDURE IF EXISTS sp_UpdateUserInfo;
 CREATE PROCEDURE sp_UpdateUserInfo
     @UserID INT,
     @UserName VARCHAR(20),
+    @NickName VARCHAR(20),
     @Password VARCHAR(20)
 AS
 BEGIN
@@ -329,7 +330,7 @@ BEGIN
         RETURN;
     END
     UPDATE Users
-    SET UserName = @UserName, Password = @Password
+    SET UserName = @UserName, Password = @Password, NickName = @NickName
     WHERE UserID = @UserID;
     SELECT @UserID;
 END;

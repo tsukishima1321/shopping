@@ -48,6 +48,7 @@ EditUserWindow::EditUserWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->buttonNewAddress->setIcon(IconResources::getIcons()["new-address"]);
     ui->lineEditName->setText(user.name);
+    ui->lineEditNick->setText(user.nickname);
     if (user.isSeller) {
         Seller seller = CurrentUser::getInstance()->getSeller();
         ui->lineEditRealName->setText(seller.realName);
@@ -112,6 +113,7 @@ EditUserWindow::~EditUserWindow() {
 void EditUserWindow::submitChanges() {
     User tempUser = user;
     tempUser.name = ui->lineEditName->text();
+    tempUser.nickname = ui->lineEditNick->text();
     if (ui->lineEditPassword->text() != "") {
         tempUser.password = ui->lineEditPassword->text();
     }

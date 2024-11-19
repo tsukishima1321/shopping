@@ -34,7 +34,7 @@ SearchWindow::SearchWindow(QWidget *parent) :
     connect(ui->pageNavigate, &PageNavigator::currentPageChanged, this, [this](int p) {
         if (p != currentPage) {
             currentPage = p;
-            buttonSearchClicked();
+            updateSearch();
         }
         currentPage = p;
     });

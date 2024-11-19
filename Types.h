@@ -48,6 +48,7 @@ struct Address {
 struct User {
     ID_t id;
     QString name;
+    QString nickname;
     QString password;
     bool isSeller;
     QList<Address> addresses;
@@ -119,7 +120,7 @@ struct UserPermission {
 };
 
 struct Comment {
-    QString userName;
+    QString nickname;
     QString content;
     QDateTime time;
 };
