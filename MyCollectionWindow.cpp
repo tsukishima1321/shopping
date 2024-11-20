@@ -52,12 +52,12 @@ void MyCollectionWindow::updateCollection() {
         previewList.append(new GoodsPreviewForm);
         auto form = addGoodsItem(goods.image, goods.name, goods.price.toString(), goods.description, goods.id);
         form->enableCheck(true);
-        if(goods.status == 1) {
+        if (goods.status == 1) {
             form->setDeactive();
         }
         connect(form, &GoodsPreviewForm::isClicked, this, &MyCollectionWindow::openDetailMenu);
     }
-    
+
     for (QVBoxLayout *column : vBoxLayouts) {
         for (int i = column->count() - 1; i >= 0; i--) {
             column->removeItem(column->itemAt(i));
@@ -136,6 +136,11 @@ void MyCollectionWindow::resizeEvent(QResizeEvent *event) {
 }
 
 void MyCollectionWindow::openDetailMenu(ID_t id) {
+    GoodsPreviewForm *form = qobject_cast<GoodsPreviewForm *>(sender());
+    if (!form->isActive()) {
+        QMessageBox::warning(this, "商品已下架", "商品已下架，无法查看详情");
+        return;
+    }
     GoodsDetailWindow *detailWindow = new GoodsDetailWindow(id);
     detailWindow->show();
 }

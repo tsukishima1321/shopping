@@ -4,6 +4,7 @@
 DROP PROCEDURE IF EXISTS sp_UserRegist;
 CREATE PROCEDURE sp_UserRegist
     @UserName VARCHAR(20),
+    @NickName VARCHAR(20),
     @Password VARCHAR(20)
 AS
 BEGIN
@@ -12,8 +13,8 @@ BEGIN
     BEGIN
         RETURN;
     END
-    INSERT INTO Users (UserName, Password, RegisterTime, LastLoginTime, isSeller)
-    VALUES (@UserName, @Password, GETDATE(), GETDATE(), 0);
+    INSERT INTO Users (UserName, Password, RegisterTime, LastLoginTime, isSeller, Nickname)
+    VALUES (@UserName, @Password, GETDATE(), GETDATE(), 0, @NickName);
     SELECT SCOPE_IDENTITY();
 END
 

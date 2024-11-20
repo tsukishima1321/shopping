@@ -117,13 +117,17 @@ void ShopEditWindow::submit() {
             QMessageBox::warning(this, "错误", "添加店铺失败");
         } else {
             QMessageBox::information(this, "成功", "添加店铺成功");
-            DataInterface::OpenShop(*id);
-            shop.id = *id;
-            ui->buttonActive->setEnabled(true);
-            ui->buttonDeactive->setEnabled(true);
-            ui->buttonNew->setEnabled(true);
-            ui->checkBoxSelectAll->setEnabled(true);
-            ui->buttonDeleteShop->setEnabled(true);
+            // DataInterface::OpenShop(*id);
+            shop = DataInterface::getShopById(*id);
+            if (shop.status == 1) {
+                QMessageBox::information(this, "成功", "店铺已提交审核，请等待管理员审核");
+            } else {
+                ui->buttonActive->setEnabled(true);
+                ui->buttonDeactive->setEnabled(true);
+                ui->buttonNew->setEnabled(true);
+                ui->checkBoxSelectAll->setEnabled(true);
+                ui->buttonDeleteShop->setEnabled(true);
+            }
         }
     } else {
         if (!DataInterface::UpdateShop(shop)) {

@@ -79,6 +79,10 @@ MyCartWindow::~MyCartWindow() {
 }
 
 void MyCartWindow::subMitOrder() {
+    if(ui->comboBox->currentText().isEmpty()) {
+        QMessageBox::warning(nullptr, "错误", "请选择有效的地址");
+        return;
+    }
     QDialog dialog;
     QVBoxLayout layout(&dialog);
     QLabel label("确定要提交订单吗？");

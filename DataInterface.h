@@ -43,7 +43,7 @@ namespace DataInterface {
     std::optional<ID_t> UserLogin(const QString &name, const QString &password);
     std::optional<ID_t> AdminLogin(const QString &name, const QString &password);
 
-    std::optional<ID_t> UserRegist(const QString &name, const QString &password);
+    std::optional<ID_t> UserRegist(const QString &name, const QString &password, const QString &nickname);
 
     SellerApplySubmitStatus SubmitSellerApply(ID_t userID, const QString &phone, const QString &realName, const QString &realIdentityNumber);
 

@@ -17,10 +17,11 @@ UserRegistWindow::~UserRegistWindow() {
 void UserRegistWindow::registButtonClicked() {
     QString name = ui->lineEditName->text();
     QString password = ui->lineEditPassword->text();
+    QString nickname = ui->lineEditNick->text();
     if (name.isEmpty() || password.isEmpty()) {
         return;
     }
-    std::optional<ID_t> userId = DataInterface::UserRegist(name, password);
+    std::optional<ID_t> userId = DataInterface::UserRegist(name, password, nickname);
     if (userId.has_value()) {
         QMessageBox::information(this, "注册成功", "注册成功，返回登录界面");
         this->close();

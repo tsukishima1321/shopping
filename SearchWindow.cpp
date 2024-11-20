@@ -63,6 +63,8 @@ SearchWindow::SearchWindow(QWidget *parent) :
 
     connect(ui->searchButton, &QPushButton::clicked, this, &SearchWindow::buttonSearchClicked);
     connect(ui->lineEdit, &QLineEdit::returnPressed, this, &SearchWindow::buttonSearchClicked);
+
+    buttonSearchClicked();
 }
 
 SearchWindow::SearchWindow(const QString &searchText, QWidget *parent) :

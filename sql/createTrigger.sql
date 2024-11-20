@@ -45,6 +45,36 @@ BEGIN
     WHERE UserID = @UserID
 END;
 
+-- 删除地址时，若删除的是默认地址，则自动设置一个地址为默认地址
+DROP TRIGGER IF EXISTS tr_AddressDelete;
+CREATE TRIGGER tr_AddressDelete ON Address AFTER DELETE
+AS
+DECLARE @UserID INT
+SELECT @UserID = UserID FROM deleted
+IF (SELECT COUNT(*) FROM Address WHERE UserID = @UserID) > 0
+BEGIN
+    IF NOT EXISTS (SELECT * FROM Address WHERE UserID = @UserID AND IsDefault = 1)
+    BEGIN
+        UPDATE Address
+        SET IsDefault = 1
+        WHERE UserID = @UserID
+        AND AddressID = (SELECT TOP 1 AddressID FROM Address WHERE UserID = @UserID)
+    END
+END;
+
+-- 删除地址前，若有未处理的订单，则禁止删除
+DROP TRIGGER IF EXISTS tr_AddressDeleteCheck;
+CREATE TRIGGER tr_AddressDeleteCheck ON Address FOR DELETE
+AS
+DECLARE @AddressID INT
+DECLARE @UserID INT
+SELECT @AddressID = AddressID, @UserID = UserID FROM deleted
+IF EXISTS (SELECT * FROM Orders WHERE AddressID = @AddressID AND Status = 0)
+BEGIN
+    RAISERROR('There are unhandled orders associated with this address, please handle them first.', 16, 1)
+    ROLLBACK TRANSACTION
+END;
+
 -- 认证申请被接受时，自动更新商家信息
 DROP TRIGGER IF EXISTS tr_AuthAccept;
 CREATE TRIGGER tr_AuthAccept ON SellerApply FOR UPDATE

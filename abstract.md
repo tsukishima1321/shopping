@@ -71,12 +71,13 @@
 将商品加入购物车：用户将商品加入购物车。 | INSERT CartGoods
 为商品添加评论：用户为商品添加评论，系统生成评论ID和评论时间。 | INSERT Comment
 认证成为商家：用户申请认证成为商家，系统生成商家用户ID，更新用户权限。 | INSERT Seller，UPDATE UserPermission
-添加、修改和删除店铺：商家用户添加、修改和删除店铺。 | INSERT Shop，UPDATE Shop，DELETE Shop
+添加、修改和删除店铺：商家用户添加、修改和删除店铺。 | INSERT Shop，UPDATE Shop
 查看个人店铺，查看店铺中的商品：商家用户查看个人店铺，查看店铺中的商品。 | SELECT Shop，SELECT Goods
 在店铺中添加、删除和修改商品：商家用户在店铺中添加、删除和修改商品。 | INSERT Goods，DELETE Goods，UPDATE Goods
 接收和处理订单：商家用户接收和处理订单。 | SELECT Order，UPDATE Orders
 查看用户信息：管理员查看用户信息。 | SELECT Users
-查看店铺信息：管理员查看店铺信息。 | SELECT Shop
+查看店铺信息：管理员查看店铺信息，更改店铺状态 | SELECT Shop，UPDATE Shop
+查看商品信息：管理员查看商品信息，更改商品状态 | SELECT Goods，UPDATE Goods
 调整用户权限，封禁用户：管理员调整用户权限，封禁用户。 | UPDATE UserPermission
 
 - SQL建立表格：

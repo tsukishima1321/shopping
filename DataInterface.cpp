@@ -582,10 +582,11 @@ std::optional<ID_t> DataInterface::AdminLogin(const QString &name, const QString
     return std::nullopt;
 }
 
-std::optional<ID_t> DataInterface::UserRegist(const QString &name, const QString &password) {
+std::optional<ID_t> DataInterface::UserRegist(const QString &name, const QString &password, const QString &nickname) {
     QSqlQuery query(DBInstance::getInstance());
-    query.prepare("EXEC sp_UserRegist ?, ?");
+    query.prepare("EXEC sp_UserRegist ?, ?, ?");
     query.addBindValue(name);
+    query.addBindValue(nickname);
     query.addBindValue(password);
     if (!query.exec()) {
         QMessageBox::warning(nullptr, "数据库错误", query.lastError().text());

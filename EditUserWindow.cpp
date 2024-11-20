@@ -111,6 +111,10 @@ EditUserWindow::~EditUserWindow() {
 }
 
 void EditUserWindow::submitChanges() {
+    if (ui->lineEditName->text() == "" || ui->lineEditNick->text() == "") {
+        QMessageBox::warning(this, "修改失败", "用户名和昵称不能为空");
+        return;
+    }
     User tempUser = user;
     tempUser.name = ui->lineEditName->text();
     tempUser.nickname = ui->lineEditNick->text();

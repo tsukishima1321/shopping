@@ -8,6 +8,7 @@ GoodsPreviewForm::GoodsPreviewForm(QWidget *parent) :
         QWidget(parent), ui(new Ui::GoodsPreviewForm) {
     ui->setupUi(this);
     available = true;
+    active = true;
     this->setMinimumHeight(100);
     this->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
     this->hideElements();
@@ -20,6 +21,10 @@ GoodsPreviewForm::GoodsPreviewForm(QWidget *parent) :
 
 GoodsPreviewForm::~GoodsPreviewForm() {
     delete ui;
+}
+
+bool GoodsPreviewForm::isActive() const {
+    return active;
 }
 
 void GoodsPreviewForm::setImage(const QPixmap &image) {
@@ -103,6 +108,7 @@ void GoodsPreviewForm::setChecked(bool checked) {
 }
 
 void GoodsPreviewForm::setDeactive() {
+    active = false;
     QGraphicsColorizeEffect *effect = new QGraphicsColorizeEffect(this);
     effect->setColor(Qt::white);
     effect->setStrength(0.5);

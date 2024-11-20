@@ -29,10 +29,12 @@ public:
     void setChecked(bool checked);
 
     void setDeactive();
+    bool isActive() const;
 
 private:
     Ui::GoodsPreviewForm *ui;
     bool available;
+    bool active;
     ID_t id;
 
 protected:
