@@ -192,6 +192,7 @@ Seller DataInterface::getSellerById(ID_t id) {
         seller.id = query.value("UserID").toUInt();
         seller.name = query.value("UserName").toString();
         seller.password = query.value("Password").toString();
+        seller.nickname = query.value("Nickname").toString();
         seller.isSeller = true;
         seller.phone = query.value("Phone").toString();
         seller.realIdentityNumber = query.value("IDNumber").toString();

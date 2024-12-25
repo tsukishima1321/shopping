@@ -183,10 +183,9 @@ CREATE TABLE UserPermission (
     AllowAddGoods BIT NOT NULL,
     AllowHandleOrder BIT NOT NULL
 );
-
 -- 商家信息视图
 CREATE VIEW SellerDetail AS
-SELECT Seller.UserID, Users.UserName, Seller.Phone, Seller.IDNumber, Seller.RealName
+SELECT Seller.UserID, Users.UserName, Seller.Phone, Seller.IDNumber, Seller.RealName, Users.Nickname, Users.Password
 FROM Seller
 INNER JOIN Users ON Seller.UserID = Users.UserID;
 

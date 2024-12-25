@@ -134,6 +134,7 @@ void EditUserWindow::submitChanges() {
 void EditUserWindow::cancelChanges() {
     ui->lineEditName->setText(user.name);
     ui->lineEditPassword->setText("");
+    ui->lineEditNick->setText(user.nickname);
 }
 
 void EditUserWindow::sellerApply() {

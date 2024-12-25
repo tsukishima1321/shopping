@@ -229,6 +229,7 @@ void ShopEditWindow::newGoods() {
     UserPermission permission = DataInterface::getUserPermissionByUserId(shop.sellerId);
     if (!permission.allowAddGoods) {
         QMessageBox::warning(this, "错误", "你已被管理员禁止添加商品");
+        return;
     }
     GoodsEditWindow *detailWindow = new GoodsEditWindow();
     detailWindow->setShopId(shop.id);
